@@ -423,7 +423,7 @@ a:hover {
 
 /* Gallery Section */
 .gallery-section {
-  padding: 3rem 0;
+  padding: 3rem 2rem;
 }
 
 .gallery-grid {
@@ -457,7 +457,7 @@ a:hover {
 
 /* About Section */
 .about-section {
-  padding: 3rem 0;
+  padding: 3rem 2rem;
 }
 
 .about-content {
