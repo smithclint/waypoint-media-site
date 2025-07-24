@@ -1,20 +1,21 @@
-# Manual GitHub Pages Setup Instructions
+# Simple GitHub Pages Setup Instructions
 
-Since the automatic setup may need manual configuration, here are the step-by-step instructions:
+This uses the simple branch deployment method, just like your resume site.
 
 ## Step 1: Enable GitHub Pages
 
 1. Go to your repository: https://github.com/smithclint/waypoint-media-site
 2. Click on **Settings** (tab at the top)
 3. Scroll down to **Pages** in the left sidebar
-4. Under **Source**, select **GitHub Actions** (not Deploy from a branch)
-5. The workflow file we created (`.github/workflows/pages.yml`) will handle deployment
+4. Under **Source**, select **Deploy from a branch**
+5. Choose **main** branch and **/ (root)** folder
+6. Click **Save**
 
 ## Step 2: Verify Deployment
 
-1. Go to the **Actions** tab in your repository
-2. You should see "Deploy to GitHub Pages" workflows running
-3. Wait for the green checkmark indicating successful deployment
+1. The site will build automatically from the main branch
+2. GitHub will show a green checkmark and deployment URL
+3. No Actions workflow needed - it's automatic!
 
 ## Step 3: Access Your Site
 
@@ -71,17 +72,19 @@ Value: smithclint.github.io
 
 ## Troubleshooting
 
-### If the workflow fails:
+### If the deployment fails:
 
-1. Check the Actions tab for error messages
-2. Ensure the repository is public (or you have GitHub Pro for private repos)
-3. Verify the workflow file syntax
+1. Check the repository is public (or you have GitHub Pro for private repos)
+2. Verify the main branch has your HTML files
+3. Make sure there are no syntax errors in your HTML
 
-### If the site doesn't load:
+### If the site doesn't deploy:
 
-1. Check that Pages is enabled in Settings
-2. Verify the correct source is selected (GitHub Actions)
-3. Ensure index.html exists in the repository root
+1. Check that Pages is enabled in Settings → Pages
+2. Verify **Deploy from a branch** is selected
+3. Ensure **main** branch and **/ (root)** folder are chosen
+4. Make sure the repository is public
+5. Verify index.html exists in the repository root
 
 ### Custom domain issues:
 
@@ -91,10 +94,10 @@ Value: smithclint.github.io
 
 ## Current Repository Status
 
-✅ GitHub Actions workflow configured
+✅ Simple branch deployment configured
 ✅ .nojekyll file added (disables Jekyll)
 ✅ CNAME file present with your domain
 ✅ All HTML files formatted and validated
 ✅ Repository structure ready for deployment
 
-The site should automatically deploy whenever you push to the main branch!
+The site will automatically deploy whenever you push to the main branch - no GitHub Actions needed!
