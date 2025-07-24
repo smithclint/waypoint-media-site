@@ -787,12 +787,18 @@ a:hover {
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.header-logo {
+  margin-bottom: 1rem;
 }
 
 .header-logo img {
-  height: 50px;
+  height: 250px;
   width: auto;
 }
 
@@ -961,6 +967,10 @@ a:hover {
 @media (max-width: 768px) {
   .header-container {
     padding: 0 1rem;
+  }
+
+  .header-logo img {
+    height: 180px;
   }
 
   .page-title {
