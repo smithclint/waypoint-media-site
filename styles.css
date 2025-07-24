@@ -1,13 +1,13 @@
 body {
   /* Option 1: Open Sans (clean, widely used, professional) */
-  font-family: "Open Sans", sans-serif;
-  
+  font-family: 'Open Sans', sans-serif;
+
   /* Option 2: Lato (friendly, humanist, readable) */
   /* font-family: "Lato", sans-serif; */
-  
+
   /* Option 3: Inter (modern, designed for UI) */
   /* font-family: "Inter", sans-serif; */
-  
+
   margin: 0;
   padding: 0;
   color: #333;
@@ -130,13 +130,13 @@ header .headshot {
   flex: 1;
 }
 header .headshot img {
-    width: 100%;         /* Makes the image responsive */
-    aspect-ratio: 1 / 1; /* Locks to a square aspect ratio (1:1) */
-    object-fit: cover;   /* Ensures the image fills the area */
-    border-radius: 1%;  /* Optional: Makes it circular */
-    border-color: white;
-    border: 0.5rem solid;
-    border-bottom: 1rem solid;
+  width: 100%; /* Makes the image responsive */
+  aspect-ratio: 1 / 1; /* Locks to a square aspect ratio (1:1) */
+  object-fit: cover; /* Ensures the image fills the area */
+  border-radius: 1%; /* Optional: Makes it circular */
+  border-color: white;
+  border: 0.5rem solid;
+  border-bottom: 1rem solid;
 }
 header .details {
   flex: 2;
@@ -326,7 +326,9 @@ a:hover {
   border-radius: 8px;
   background: #f8f9fa;
   border-left: 4px solid #007bff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .service-item:hover {
@@ -357,7 +359,7 @@ a:hover {
 }
 
 .service-item ul li:before {
-  content: "✓";
+  content: '✓';
   position: absolute;
   left: 0;
   color: #28a745;
@@ -369,17 +371,22 @@ a:hover {
   background: #f8f9fa;
 }
 
-.contact-section, .social-section, .credentials-section, .service-area {
+.contact-section,
+.social-section,
+.credentials-section,
+.service-area {
   margin-bottom: 2rem;
 }
 
-.contact-info p, .social-links a {
+.contact-info p,
+.social-links a {
   display: flex;
   align-items: center;
   margin: 0.5rem 0;
 }
 
-.contact-info i, .social-links i {
+.contact-info i,
+.social-links i {
   margin-right: 0.5rem;
   width: 20px;
 }
@@ -592,38 +599,38 @@ a:hover {
   .hero-overlay h1 {
     font-size: 2rem;
   }
-  
+
   .hero-overlay p {
     font-size: 1rem;
   }
-  
+
   .hero-logo {
     max-width: 300px;
   }
-  
+
   .services-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .gallery-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .about-content {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .cta-buttons {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .footer-content {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .nav-link {
     display: block;
     margin: 0.25rem 0;
@@ -656,7 +663,9 @@ a:hover {
   margin: 0 20px;
   padding: 8px 16px;
   border-radius: 4px;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
   display: inline-block;
 }
 
@@ -692,7 +701,7 @@ a:hover {
     height: auto; /* Maintain aspect ratio */
     fill: #fdfdfa; /* Ensure the color remains correct */
   }
-  
+
   .logo.drone-logo {
     width: 280px; /* Larger size for drone page mobile */
   }
@@ -707,8 +716,6 @@ a:hover {
     gap: 1.5rem;
   }
 }
-
-
 
 @media (max-width: 480px) {
   .headshot img {

@@ -3,3 +3,21 @@
 
 # Ignore Waypoint Media videos because they are included in releases due to their size
 assets/waypoint/videos/*
+
+# Node.js dependencies and cache
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+.cache/
+
+# Python environment
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+.poetry/

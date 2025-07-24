@@ -1,0 +1,79 @@
+repos:
+  # General file formatting and linting
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        description: Trim trailing whitespace
+      - id: end-of-file-fixer
+        description: Ensure files end with a newline
+      - id: check-merge-conflict
+        description: Check for merge conflict markers
+      - id: check-case-conflict
+        description: Check for case conflicts in filenames
+      - id: check-json
+        description: Check JSON files for syntax errors
+      - id: pretty-format-json
+        description: Format JSON files
+        args: ['--autofix']
+      - id: check-yaml
+        description: Check YAML files for syntax errors
+      - id: check-toml
+        description: Check TOML files for syntax errors
+      - id: mixed-line-ending
+        description: Check for mixed line endings
+      - id: check-added-large-files
+        description: Check for large files being added
+        args: ['--maxkb=5000']  # 5MB limit
+
+  # HTML, CSS, JS formatting with Prettier
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        description: Format HTML, CSS, JS, and Markdown files
+        types_or: [html, css, javascript, markdown]
+        args: ['--write', '--tab-width=2', '--single-quote']
+
+  # Python code formatting and linting (for any future Python scripts)
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        description: Format Python code with Black
+        language_version: python3
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        description: Sort Python imports
+        args: ["--profile", "black"]
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+        description: Lint Python code with flake8
+        args: ['--max-line-length=88', '--extend-ignore=E203,W503']
+
+  # Security scanning
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        description: Detect secrets in code
+        args: ['--baseline', '.secrets.baseline']
+        exclude: |
+          (?x)^(
+              .*\.lock$|
+              .*\.log$|
+              \.secrets\.baseline$|
+              node_modules/.*|
+              \.cache/.*|
+              __pycache__/.*
+          )$
+
+# Global configuration
+default_stages: [pre-commit, pre-push]
+fail_fast: false

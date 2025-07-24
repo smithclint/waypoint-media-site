@@ -23,7 +23,7 @@ Waypoint Media specializes in professional aerial cinematography, combining tech
 ### Service Areas
 
 - **Primary**: Florida, Georgia, Alabama
-- **Extended**: Southeast United States  
+- **Extended**: Southeast United States
 - **Travel**: Available nationwide for larger projects
 
 ## Contact
@@ -55,5 +55,5 @@ Waypoint Media specializes in professional aerial cinematography, combining tech
 
 ---
 
-© 2025 Waypoint Media Productions. All rights reserved.  
+© 2025 Waypoint Media Productions. All rights reserved.
 FAA Part 107 Certified • Fully Insured • Professional Drone Operations
