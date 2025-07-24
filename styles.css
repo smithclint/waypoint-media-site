@@ -594,23 +594,28 @@ a:hover {
   color: #007bff;
 }
 
+/* Medium screens */
+@media (max-width: 1024px) {
+  .hero-banner {
+    height: 78vh;
+    margin-top: -9vh;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .waypoint-hero {
-    min-height: 50vh;
+    min-height: 45vh;
   }
 
   .hero-banner {
-    height: 50vh;
+    height: 80vh;
+    margin-top: -17.5vh;
+    object-position: center 45%;
   }
 
   .hero-text-section {
     padding: 1.5rem 0;
-  }
-
-  .hero-banner {
-    height: 62.5vh;
-    margin-top: -6.25vh;
   }
 
   .hero-text-section h1 {
@@ -647,12 +652,13 @@ a:hover {
 /* Extra small screens */
 @media (max-width: 480px) {
   .waypoint-hero {
-    min-height: 40vh;
+    min-height: 35vh;
   }
 
   .hero-banner {
-    height: 50vh;
-    margin-top: -5vh;
+    height: 90vh;
+    margin-top: -27.5vh;
+    object-position: center 40%;
   }
 
   .hero-text-section {
