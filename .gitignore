@@ -1,0 +1,5 @@
+*.code-workspace
+.DS_Store
+
+# Ignore Waypoint Media videos because they are included in releases due to their size
+assets/waypoint/videos/*

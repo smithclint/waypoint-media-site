@@ -1,0 +1,717 @@
+body {
+  /* Option 1: Open Sans (clean, widely used, professional) */
+  font-family: "Open Sans", sans-serif;
+  
+  /* Option 2: Lato (friendly, humanist, readable) */
+  /* font-family: "Lato", sans-serif; */
+  
+  /* Option 3: Inter (modern, designed for UI) */
+  /* font-family: "Inter", sans-serif; */
+  
+  margin: 0;
+  padding: 0;
+  color: #333;
+  line-height: 1.6;
+  background-color: #fdfdfa;
+}
+
+/* Waypoint Hero Header Styles */
+.waypoint-hero {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  overflow: hidden;
+}
+
+.banner-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-banner {
+  width: 100%;
+  height: 60vh;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.hero-logo {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.hero-overlay h1 {
+  font-size: 2.5rem;
+  margin: 1rem 0 0.5rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+}
+
+.hero-overlay p {
+  font-size: 1.2rem;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-weight: 300;
+}
+
+/* Navigation Styles */
+.main-nav {
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
+  text-align: center;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Legacy header styles (kept for other pages) */
+header {
+  background-color: #1c1924;
+  color: #fff;
+  padding: 2rem 0;
+  min-height: 200px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header .headshot {
+  flex: 1;
+}
+header .headshot img {
+    width: 100%;         /* Makes the image responsive */
+    aspect-ratio: 1 / 1; /* Locks to a square aspect ratio (1:1) */
+    object-fit: cover;   /* Ensures the image fills the area */
+    border-radius: 1%;  /* Optional: Makes it circular */
+    border-color: white;
+    border: 0.5rem solid;
+    border-bottom: 1rem solid;
+}
+header .details {
+  flex: 2;
+  display: flex;
+  justify-content: left; /* Centers the logo horizontally */
+  align-items: center; /* Centers the logo vertically */
+  text-align: center;
+}
+
+.logo {
+  max-width: 100%; /* Ensures the logo scales responsively */
+  height: auto; /* Maintains aspect ratio */
+  max-height: 150px; /* Restored original size limit for index and resume pages */
+}
+
+/* Large logo specifically for drone page */
+.logo.drone-logo {
+  max-height: none; /* Remove height restriction for drone page */
+}
+
+header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+header h2 {
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin: 0;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+section {
+  margin-bottom: 2rem;
+}
+.section-title {
+  font-size: 1.5rem;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  color: #555;
+}
+.entry {
+  margin-bottom: 1.5rem;
+}
+.entry h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #333;
+}
+.entry span {
+  font-size: 0.9rem;
+  color: #777;
+}
+.entry p {
+  margin: 0.5rem 0 0;
+}
+.panel {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+  font-size: 0.9rem;
+}
+a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.entry-subtitle {
+  font-weight: 550;
+}
+
+.professional-summary-paragraph {
+  font-size: 1.1rem;
+}
+
+/* Responsive video embeds */
+.video-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+/* Waypoint Media Specific Styles */
+
+/* Hero Video Section */
+.hero-video {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.hero-video-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.hero-text h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.service-item {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-item h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.service-item h3 i {
+  margin-right: 0.5rem;
+  color: #007bff;
+}
+
+.service-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.service-item ul li {
+  padding: 0.25rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.service-item ul li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background: #f8f9fa;
+}
+
+.contact-section, .social-section, .credentials-section, .service-area {
+  margin-bottom: 2rem;
+}
+
+.contact-info p, .social-links a {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.contact-info i, .social-links i {
+  margin-right: 0.5rem;
+  width: 20px;
+}
+
+.social-link {
+  display: block;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover {
+  color: #007bff;
+}
+
+.credentials ul {
+  list-style: none;
+  padding: 0;
+}
+
+.credentials ul li {
+  padding: 0.25rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.credentials ul li i {
+  position: absolute;
+  left: 0;
+  color: #007bff;
+  width: 16px;
+}
+
+/* Gallery Section */
+.gallery-section {
+  padding: 3rem 0;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.gallery-item {
+  text-align: center;
+}
+
+.gallery-item video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.gallery-item h3 {
+  margin: 1rem 0 0.5rem 0;
+  color: #333;
+}
+
+.gallery-item p {
+  color: #666;
+  margin: 0;
+}
+
+/* About Section */
+.about-section {
+  padding: 3rem 0;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.about-text {
+  flex: 2;
+  min-width: 300px;
+}
+
+.about-image {
+  flex: 1;
+  text-align: center;
+  min-width: 200px;
+}
+
+.about-logo {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
+
+/* Call to Action Section */
+.cta-section {
+  text-align: center;
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+}
+
+.cta-section .section-title {
+  color: white;
+  border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.cta-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.cta-button.primary {
+  background: #fff;
+  color: #667eea;
+}
+
+.cta-button.primary:hover {
+  background: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.cta-button.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.cta-button.secondary:hover {
+  background: white;
+  color: #667eea;
+  transform: translateY(-1px);
+}
+
+/* Footer Styles */
+.waypoint-footer {
+  background: #1c1924;
+  color: white;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+.footer-info {
+  flex: 1;
+  text-align: center;
+}
+
+.footer-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-social a {
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+  color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-overlay p {
+    font-size: 1rem;
+  }
+  
+  .hero-logo {
+    max-width: 300px;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .nav-link {
+    display: block;
+    margin: 0.25rem 0;
+  }
+}
+
+/* Portrait/vertical video styling for Instagram-style content */
+.video-container.portrait {
+  padding-bottom: 177.78%; /* 9:16 aspect ratio for vertical videos */
+  max-width: 350px; /* Slightly wider to accommodate content */
+  margin: 0 auto; /* Center the container */
+}
+
+.video-container.portrait video {
+  object-fit: contain; /* Changed from cover to contain to show full video */
+}
+
+.video-title {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
+/* Navigation styling */
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  margin: 0 20px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background 0.3s, color 0.3s;
+  display: inline-block;
+}
+
+.nav-link:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.nav-link.active {
+  background: #007bff;
+  color: white;
+  font-weight: 600;
+}
+
+.nav-link.active:hover {
+  background: #0056b3;
+}
+
+/* End navigation styling */
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column; /* Stack the elements vertically */
+    text-align: center; /* Center align the text */
+    align-items: center; /* Ensures items stay visible and centered */
+  }
+
+  .details {
+    margin-bottom: 1rem; /* Add spacing below the logo */
+  }
+
+  .logo {
+    width: 120px; /* Original mobile size for index and resume pages */
+    height: auto; /* Maintain aspect ratio */
+    fill: #fdfdfa; /* Ensure the color remains correct */
+  }
+  
+  .logo.drone-logo {
+    width: 280px; /* Larger size for drone page mobile */
+  }
+
+  .headshot img {
+    max-width: 70%; /* Adjust image size */
+    margin-top: 1rem; /* Add spacing above the headshot */
+  }
+
+  .video-showcase {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+
+
+@media (max-width: 480px) {
+  .headshot img {
+    max-width: 50%; /* Further restrict image size */
+  }
+}
