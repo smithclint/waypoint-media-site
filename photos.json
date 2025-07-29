@@ -1,7 +1,7 @@
 {
   "beachfront-condominium": {
-    "category": "waterfront",
-    "description": "Luxury oceanfront condominium with direct beach access and panoramic views",
+    "category": "golf-course",
+    "description": "Inside This Luxury Pool Home in Sugar Mill, New Smyrna Beach, FL",
     "images": [
       {
         "caption": "Oceanfront building overview",
@@ -18,65 +18,191 @@
     ],
     "title": "Beachfront Condominium - New Smyrna Beach, FL"
   },
-  "luxury-waterfront-estate": {
+  "sugar-mill-pool-home": {
     "category": "luxury-homes",
-    "description": "Stunning waterfront luxury home with private dock, pool, and expansive grounds",
+    "description": "Stunning aerial views of a luxurious pool home featuring modern architecture and beautiful landscaping",
     "images": [
       {
-        "caption": "Aerial overview of waterfront estate",
-        "url": "assets/real-estate/luxury-waterfront-estate/aerial-overview.jpg"
+        "caption": "Re Edit From Last Shoot - Zillow Photo 01",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-01.jpg"
       },
       {
-        "caption": "Pool and outdoor entertainment area",
-        "url": "assets/real-estate/luxury-waterfront-estate/pool-entertainment.jpg"
+        "caption": "Re Edit From Last Shoot - Zillow Photo 02",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-02.jpg"
       },
       {
-        "caption": "Private dock and water access",
-        "url": "assets/real-estate/luxury-waterfront-estate/private-dock.jpg"
+        "caption": "Re Edit From Last Shoot - Zillow Photo 03",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-03.jpg"
       },
       {
-        "caption": "Landscaping and property boundaries",
-        "url": "assets/real-estate/luxury-waterfront-estate/landscaping.jpg"
+        "caption": "Re Edit From Last Shoot - Zillow Photo 04",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-04.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 05",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-05.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 06",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-06.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 07",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-07.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 08",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-08.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 09",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-09.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 10",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-10.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 11",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-11.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 12",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-12.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 13",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-13.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 14",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-14.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 15",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-15.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 16",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-16.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 17",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-17.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 18",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-18.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 19",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-19.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 20",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-20.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 21",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-21.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 22",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-22.jpg"
+      },
+      {
+        "caption": "Re Edit From Last Shoot - Zillow Photo 23",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-23.jpg"
+      },
+      {
+        "caption": "Zillow Photo 24",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-24.jpg"
+      },
+      {
+        "caption": "Zillow Photo 25",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-25.jpg"
+      },
+      {
+        "caption": "Zillow Photo 26",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-26.jpg"
+      },
+      {
+        "caption": "Zillow Photo 27",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-27.jpg"
+      },
+      {
+        "caption": "Zillow Photo 28",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-28.jpg"
+      },
+      {
+        "caption": "Zillow Photo 29",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-29.jpg"
+      },
+      {
+        "caption": "Zillow Photo 30",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-30.jpg"
+      },
+      {
+        "caption": "Zillow Photo 31",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-31.jpg"
+      },
+      {
+        "caption": "Zillow Photo 32",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-32.jpg"
+      },
+      {
+        "caption": "Zillow Photo 33",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-33.jpg"
+      },
+      {
+        "caption": "Zillow Photo 34",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-34.jpg"
+      },
+      {
+        "caption": "Zillow Photo 35",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-35.jpg"
+      },
+      {
+        "caption": "Zillow Photo 36",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-36.jpg"
+      },
+      {
+        "caption": "Zillow Photo 37",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-37.jpg"
+      },
+      {
+        "caption": "Zillow Photo 38",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-38.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 1",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-1.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 2",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-2.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 3",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-3.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 4",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-4.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 5",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-5.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 6",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-6.jpg"
+      },
+      {
+        "caption": "Zillow Photo Exterior 7",
+        "url": "https://github.com/smithclint/waypoint-media-site/releases/download/real-estate-sugar-mill-pool-home-v1.0/sugar-mi-5dfef1-zillow-photo-exterior-7.jpg"
       }
     ],
-    "title": "Luxury Waterfront Estate - Naples, FL"
-  },
-  "modern-office-complex": {
-    "category": "commercial",
-    "description": "Contemporary commercial office development with ample parking and modern amenities",
-    "images": [
-      {
-        "caption": "Office complex architectural overview",
-        "url": "assets/real-estate/modern-office-complex/building-overview.jpg"
-      },
-      {
-        "caption": "Parking facilities and accessibility",
-        "url": "assets/real-estate/modern-office-complex/parking-access.jpg"
-      },
-      {
-        "caption": "Site layout and traffic flow",
-        "url": "assets/real-estate/modern-office-complex/site-layout.jpg"
-      }
-    ],
-    "title": "Modern Office Complex - Orlando, FL"
-  },
-  "suburban-family-home": {
-    "category": "residential",
-    "description": "Charming suburban home with large backyard and excellent neighborhood location",
-    "images": [
-      {
-        "caption": "Front elevation and curb appeal",
-        "url": "assets/real-estate/suburban-family-home/front-elevation.jpg"
-      },
-      {
-        "caption": "Backyard and outdoor living space",
-        "url": "assets/real-estate/suburban-family-home/backyard-space.jpg"
-      },
-      {
-        "caption": "Neighborhood context and location",
-        "url": "assets/real-estate/suburban-family-home/neighborhood.jpg"
-      }
-    ],
-    "title": "Family Home - Winter Park, FL"
+    "title": "Sugar Mill Pool Home"
   }
 }
