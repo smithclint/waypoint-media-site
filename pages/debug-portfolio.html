@@ -27,14 +27,18 @@
 
             // Show raw data
             portfolioDiv.innerHTML =
-              '<h2>Raw photos.json data:</h2><pre>' + JSON.stringify(shootMetadata, null, 2) + '</pre>';
+              '<h2>Raw photos.json data:</h2><pre>' +
+              JSON.stringify(shootMetadata, null, 2) +
+              '</pre>';
 
             const portfolioData = await loadPhotosFromReleases(shootMetadata);
             log('✅ Finished loading from releases');
 
             // Show processed data
             portfolioDiv.innerHTML +=
-              '<h2>Processed portfolio data:</h2><pre>' + JSON.stringify(portfolioData, null, 2) + '</pre>';
+              '<h2>Processed portfolio data:</h2><pre>' +
+              JSON.stringify(portfolioData, null, 2) +
+              '</pre>';
           } else {
             log('❌ Could not load photos.json: ' + response.status);
           }

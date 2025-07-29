@@ -1,6 +1,7 @@
 # Waypoint Media Content Publishing Makefile
 # Author: Clint Smith
 # Description: Unified automation for publishing photos and videos to portfolios
+# Note: Run from project root directory
 
 .PHONY: help serve serve-cors publish deploy stop
 
@@ -10,16 +11,16 @@ help:
 	@echo "===================================="
 	@echo ""
 	@echo "Commands:"
-	@echo "  make serve       - Test website locally (standard HTTP server)"
-	@echo "  make serve-cors  - Test with CORS-enabled server (for video preloading)"
-	@echo "  make stop        - Stop all running development servers"
-	@echo "  make publish     - Publish photos/videos to portfolios"
-	@echo "  make deploy      - Deploy website updates to live site"
+	@echo "  make -f tools/Makefile serve       - Test website locally (standard HTTP server)"
+	@echo "  make -f tools/Makefile serve-cors  - Test with CORS-enabled server (for video preloading)"
+	@echo "  make -f tools/Makefile stop        - Stop all running development servers"
+	@echo "  make -f tools/Makefile publish     - Publish photos/videos to portfolios"
+	@echo "  make -f tools/Makefile deploy      - Deploy website updates to live site"
 	@echo ""
 	@echo "Usage:"
 	@echo "  1. Put files in any folder"
-	@echo "  2. Run: make publish FILES=folder/ TYPE=real-estate TITLE='Project Title'"
-	@echo "  3. Run: make deploy"
+	@echo "  2. Run: make -f tools/Makefile publish FILES=folder/ TYPE=real-estate TITLE='Project Title'"
+	@echo "  3. Run: make -f tools/Makefile deploy"
 	@echo ""
 	@echo "Required Options:"
 	@echo "  FILES=folder/      - Folder containing your photos/videos"
@@ -48,12 +49,12 @@ serve:
 # CORS-enabled development server (needed for video preloading)
 serve-cors:
 	@echo "🚀 Starting CORS-enabled server at http://localhost:8080"
-	@echo "🏠 Main Site: http://localhost:8080"
-	@echo "🏘️  Real Estate: http://localhost:8080/real-estate.html"
-	@echo "📞 Contact: http://localhost:8080/contact.html"
+	@echo "🏠 Main Site: http://localhost:8080/pages/"
+	@echo "🏘️  Real Estate: http://localhost:8080/pages/real-estate.html"
+	@echo "📞 Contact: http://localhost:8080/pages/contact.html"
 	@echo "📹 This server resolves video preloading CORS issues"
 	@echo "Press Ctrl+C to stop"
-	python3 cors_server.py
+	python3 tools/cors_server.py
 
 # Stop development servers
 stop:
