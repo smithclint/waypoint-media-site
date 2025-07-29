@@ -1365,11 +1365,7 @@ a:hover {
 }
 
 .image-caption {
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #666;
-  text-align: center;
-  background: white;
+  display: none;
 }
 
 /* Image Overlay for Full Screen View */
@@ -1432,6 +1428,36 @@ a:hover {
 
 .image-overlay-close:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+/* Image Overlay Navigation Arrows */
+.image-overlay-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  user-select: none;
+  z-index: 2001;
+}
+
+.image-overlay-prev {
+  left: 2rem;
+}
+
+.image-overlay-next {
+  right: 2rem;
+}
+
+.image-overlay-nav:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* Scroll to Top Button */
@@ -1520,5 +1546,19 @@ a:hover {
     right: 1rem;
     width: 45px;
     height: 45px;
+  }
+
+  /* Mobile navigation arrows */
+  .image-overlay-nav {
+    font-size: 2rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .image-overlay-prev {
+    left: 1rem;
+  }
+
+  .image-overlay-next {
+    right: 1rem;
   }
 }

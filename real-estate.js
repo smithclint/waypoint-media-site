@@ -296,7 +296,7 @@ function openShootModal(shootId) {
 
     // Add click to enlarge functionality
     imageItem.addEventListener('click', () => {
-      enlargeImage(image.url, image.caption);
+      enlargeImage(image.url, image.caption, currentShoot.images, index);
     });
 
     imageGrid.appendChild(imageItem);
@@ -312,20 +312,58 @@ function closeModal() {
   document.body.style.overflow = 'auto';
 }
 
-function enlargeImage(imageUrl, caption) {
+function enlargeImage(imageUrl, caption, allImages, currentIndex) {
   // Create full-screen image overlay
   const overlay = document.createElement('div');
   overlay.className = 'image-overlay';
+
+  const hasPrevious = currentIndex > 0;
+  const hasNext = currentIndex < allImages.length - 1;
+
   overlay.innerHTML = `
     <div class="image-overlay-content">
       <img src="${imageUrl}" alt="${caption}" />
       <div class="image-overlay-caption">${caption}</div>
       <button class="image-overlay-close">&times;</button>
+      ${hasPrevious ? '<button class="image-overlay-nav image-overlay-prev">‹</button>' : ''}
+      ${hasNext ? '<button class="image-overlay-nav image-overlay-next">›</button>' : ''}
     </div>
   `;
 
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
+
+  // Navigation functions
+  const showPrevious = () => {
+    if (currentIndex > 0) {
+      document.body.removeChild(overlay);
+      enlargeImage(
+        allImages[currentIndex - 1].url,
+        allImages[currentIndex - 1].caption,
+        allImages,
+        currentIndex - 1
+      );
+    }
+  };
+
+  const showNext = () => {
+    if (currentIndex < allImages.length - 1) {
+      document.body.removeChild(overlay);
+      enlargeImage(
+        allImages[currentIndex + 1].url,
+        allImages[currentIndex + 1].caption,
+        allImages,
+        currentIndex + 1
+      );
+    }
+  };
+
+  // Add navigation event listeners
+  const prevBtn = overlay.querySelector('.image-overlay-prev');
+  const nextBtn = overlay.querySelector('.image-overlay-next');
+
+  if (prevBtn) prevBtn.addEventListener('click', showPrevious);
+  if (nextBtn) nextBtn.addEventListener('click', showNext);
 
   // Close overlay on click
   overlay.addEventListener('click', function (e) {
@@ -335,15 +373,19 @@ function enlargeImage(imageUrl, caption) {
     }
   });
 
-  // Close on escape key
-  const closeOnEscape = function (e) {
+  // Close on escape key and arrow key navigation
+  const handleKeydown = function (e) {
     if (e.key === 'Escape') {
       document.body.removeChild(overlay);
       document.body.style.overflow = 'hidden'; // Keep modal scroll disabled
-      document.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('keydown', handleKeydown);
+    } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+      showPrevious();
+    } else if (e.key === 'ArrowRight' && currentIndex < allImages.length - 1) {
+      showNext();
     }
   };
-  document.addEventListener('keydown', closeOnEscape);
+  document.addEventListener('keydown', handleKeydown);
 }
 
 // Smooth scrolling for navigation links
