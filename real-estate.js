@@ -3,6 +3,44 @@
 // Load photo data from photos.json and GitHub releases
 let portfolioData = {};
 
+// Function to sort images by priority based on filename keywords
+function sortImagesByPriority(images) {
+  const getImagePriority = url => {
+    const filename = url.toLowerCase();
+
+    // High priority (show first) - lower numbers
+    if (filename.includes('exterior')) return 1;
+    if (filename.includes('living') || filename.includes('family')) return 2;
+    if (filename.includes('kitchen')) return 3;
+    if (filename.includes('dining')) return 4;
+    if (filename.includes('master') || filename.includes('primary')) return 5;
+    if (filename.includes('bedroom')) return 6;
+    if (filename.includes('bathroom') || filename.includes('bath')) return 7;
+    if (filename.includes('pool') || filename.includes('patio')) return 8;
+
+    // Medium priority (middle)
+    if (filename.includes('office') || filename.includes('study')) return 10;
+    if (filename.includes('guest')) return 11;
+    if (filename.includes('laundry')) return 12;
+
+    // Low priority (show last) - higher numbers
+    if (filename.includes('closet')) return 15;
+    if (filename.includes('storage')) return 16;
+    if (filename.includes('utility')) return 17;
+    if (filename.includes('garage')) return 18;
+    if (filename.includes('attic') || filename.includes('basement')) return 19;
+
+    // Default priority for unmatched images
+    return 9;
+  };
+
+  return images.sort((a, b) => {
+    const priorityA = getImagePriority(a.url);
+    const priorityB = getImagePriority(b.url);
+    return priorityA - priorityB;
+  });
+}
+
 // Fetch photo data on page load
 async function loadPhotoData() {
   try {
@@ -45,7 +83,8 @@ async function loadPhotosFromReleases(shootMetadata) {
               url: asset.browser_download_url,
             }));
 
-          enrichedData[shootId].images = images;
+          // Sort images by priority (exteriors first, closets/utility last)
+          enrichedData[shootId].images = sortImagesByPriority(images);
           console.log(`✅ Loaded ${images.length} photos for ${shootId} from GitHub release`);
         } else {
           console.warn(`❌ Could not fetch release data for ${shootId}: ${releaseResponse.status}`);
