@@ -11,6 +11,7 @@ Usage: python3 release_photos.py --shoot sugar-mill-pool-home --photos path/to/p
 """
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -19,8 +20,21 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+# Import for AI classification
+try:
+    import openai
+    from dotenv import load_dotenv
+
+    load_dotenv()  # Load environment variables from .env file
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+    print("⚠️  OpenAI not available. Install with: pip install openai python-dotenv")
+    print("   AI classification will be skipped.")
+
 try:
     from PIL import Image
+
     PIL_AVAILABLE = True
 except ImportError:
     PIL_AVAILABLE = False
@@ -43,54 +57,165 @@ def generate_unique_prefix(shoot_name, method="hash"):
         return shoot_name.replace("_", "-").replace(" ", "-").lower()
 
 
-def generate_prefixed_filename(original_filename, prefix, counter=None):
-    """Generate a new filename with unique prefix"""
+def generate_prefixed_filename(original_filename, prefix, counter=None, room_type=None):
+    """Generate a new filename with unique prefix and optional room classification"""
     name, ext = os.path.splitext(original_filename)
 
+    # Build filename components
+    parts = [prefix]
+
+    # Add room type if available
+    if room_type:
+        parts.append(room_type)
+
+    # Add counter if specified
     if counter is not None:
-        return f"{prefix}-{counter:03d}-{name}{ext}"
-    else:
-        return f"{prefix}-{name}{ext}"
+        parts.append(f"{counter:03d}")
+
+    # Add original name (cleaned up)
+    clean_name = name.replace("-", "").replace("_", "")  # Remove existing separators
+    if clean_name and not clean_name.isdigit():  # Only add if it's not just a number
+        parts.append(clean_name)
+
+    return f"{'-'.join(parts)}{ext}"
 
 
-def downsample_image(input_path, output_path, max_width=1920, max_height=1080, quality=85):
+def downsample_image(
+    input_path, output_path, max_width=1920, max_height=1080, quality=85
+):
     """Downsample image for web optimization"""
     if not PIL_AVAILABLE:
         # If PIL not available, just copy the original
         shutil.copy2(input_path, output_path)
         return False
-    
+
     try:
         with Image.open(input_path) as img:
             # Convert to RGB if necessary (handles RGBA, etc.)
-            if img.mode in ('RGBA', 'LA', 'P'):
-                img = img.convert('RGB')
-            
+            if img.mode in ("RGBA", "LA", "P"):
+                img = img.convert("RGB")
+
             # Calculate new dimensions maintaining aspect ratio
             width, height = img.size
             if width <= max_width and height <= max_height:
                 # Image is already small enough, but still optimize quality
-                img.save(output_path, 'JPEG', quality=quality, optimize=True)
+                img.save(output_path, "JPEG", quality=quality, optimize=True)
                 return True
-            
+
             # Calculate resize ratio
             width_ratio = max_width / width
             height_ratio = max_height / height
             ratio = min(width_ratio, height_ratio)
-            
+
             new_width = int(width * ratio)
             new_height = int(height * ratio)
-            
+
             # Resize and save
             resized_img = img.resize((new_width, new_height), Image.LANCZOS)
-            resized_img.save(output_path, 'JPEG', quality=quality, optimize=True)
-            
+            resized_img.save(output_path, "JPEG", quality=quality, optimize=True)
+
             return True
     except Exception as e:
         print(f"   ⚠️  Error downsampling {input_path}: {e}")
         # Fallback to copying original
         shutil.copy2(input_path, output_path)
         return False
+
+
+def classify_image_with_ai(image_path, max_retries=3):
+    """Classify a real estate photo using OpenAI Vision API"""
+    if not OPENAI_AVAILABLE:
+        return None
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("⚠️  OPENAI_API_KEY not found in environment variables")
+        return None
+
+    client = openai.OpenAI(api_key=api_key)
+
+    try:
+        # Convert image to base64
+        with open(image_path, "rb") as image_file:
+            base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+
+        # Retry logic for API calls
+        for attempt in range(max_retries):
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",  # Using the more cost-effective model
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": """Classify this real estate photo. Look at the room type and respond with exactly ONE word from this list:
+exterior, living, kitchen, dining, bedroom, master, bathroom, garage, closet, laundry, utility, storage, office, family, den, guest, basement, attic
+
+Choose the most specific and accurate room type. For outdoor/exterior shots, use 'exterior'. For bedrooms that appear to be master/primary bedrooms, use 'master'. For general living areas, use 'living'. Respond with only the single word.""",
+                                },
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{base64_image}",
+                                        "detail": "low",  # Use low detail to reduce costs
+                                    },
+                                },
+                            ],
+                        }
+                    ],
+                    max_tokens=10,
+                    temperature=0,  # Make it deterministic
+                )
+
+                classification = response.choices[0].message.content.strip().lower()
+
+                # Validate the response is one of our expected room types
+                valid_types = {
+                    "exterior",
+                    "living",
+                    "kitchen",
+                    "dining",
+                    "bedroom",
+                    "master",
+                    "bathroom",
+                    "garage",
+                    "closet",
+                    "laundry",
+                    "utility",
+                    "storage",
+                    "office",
+                    "family",
+                    "den",
+                    "guest",
+                    "basement",
+                    "attic",
+                }
+
+                if classification in valid_types:
+                    return classification
+                else:
+                    print(
+                        f"   ⚠️  Unexpected classification '{classification}', retrying..."
+                    )
+                    continue
+
+            except Exception as api_error:
+                if attempt < max_retries - 1:
+                    print(f"   ⚠️  API call failed (attempt {attempt + 1}), retrying...")
+                    continue
+                else:
+                    print(
+                        f"   ❌ Failed to classify {image_path} after {max_retries} attempts: {api_error}"
+                    )
+                    return None
+
+        return None  # All retries failed
+
+    except Exception as e:
+        print(f"   ❌ Error processing image {image_path}: {e}")
+        return None
 
 
 def get_existing_release_assets(tag_name):
@@ -109,8 +234,15 @@ def get_existing_release_assets(tag_name):
 
 
 def upload_photos_to_release(
-    tag_name, photo_urls, base_photos_dir, force_reupload=False, 
-    max_width=1920, max_height=1080, quality=85, no_downsample=False
+    tag_name,
+    photo_urls,
+    base_photos_dir,
+    force_reupload=False,
+    max_width=1920,
+    max_height=1080,
+    quality=85,
+    no_downsample=False,
+    use_ai_classification=False,
 ):
     """Upload photos to GitHub release using GitHub CLI"""
     print(f"\n📤 Preparing to upload {len(photo_urls)} photos to release...")
@@ -221,7 +353,7 @@ def upload_photos_to_release(
         # Copy and rename files to temp directory with downsampling
         temp_files = []
         downsampled_count = 0
-        
+
         for photo_data in photos_to_upload:
             original_path = None
 
@@ -242,18 +374,20 @@ def upload_photos_to_release(
 
             # Process and save file with new name to temp directory
             temp_file_path = Path(temp_dir) / photo_data["filename"]
-            
+
             if no_downsample:
                 # Just copy without downsampling
                 shutil.copy2(original_path, temp_file_path)
             else:
                 # Convert to .jpg for consistency and smaller file size
-                temp_file_path = temp_file_path.with_suffix('.jpg')
+                temp_file_path = temp_file_path.with_suffix(".jpg")
                 photo_data["filename"] = temp_file_path.name  # Update filename in data
-                
-                if downsample_image(original_path, temp_file_path, max_width, max_height, quality):
+
+                if downsample_image(
+                    original_path, temp_file_path, max_width, max_height, quality
+                ):
                     downsampled_count += 1
-            
+
             temp_files.append(str(temp_file_path))
 
         if not temp_files:
@@ -264,6 +398,47 @@ def upload_photos_to_release(
 
         if downsampled_count > 0:
             print(f"   🔧 Downsampled {downsampled_count} images for web optimization")
+
+        # AI Classification of downsampled images if requested
+        if use_ai_classification and OPENAI_AVAILABLE:
+            print(f"   🤖 Classifying {len(temp_files)} downsampled images...")
+            classified_files = []
+
+            for i, temp_file_path in enumerate(temp_files):
+                temp_path = Path(temp_file_path)
+                original_photo_data = photo_urls[i]
+
+                print(f"   🤖 Classifying {temp_path.name}...")
+                room_type = classify_image_with_ai(str(temp_path))
+
+                if room_type:
+                    print(f"   ✅ Classified as: {room_type}")
+
+                    # Generate new filename with room classification
+                    shoot_name = tag_name.replace("real-estate-", "").replace(
+                        "-v1.0", ""
+                    )
+                    prefix = generate_unique_prefix(shoot_name, "hash")
+
+                    new_filename = generate_prefixed_filename(
+                        original_photo_data["original_filename"],
+                        prefix,
+                        room_type=room_type,
+                    )
+
+                    # Rename the temp file
+                    new_temp_path = temp_path.parent / new_filename
+                    temp_path.rename(new_temp_path)
+                    classified_files.append(str(new_temp_path))
+
+                    # Update the photo_urls data for consistency
+                    photo_urls[i]["filename"] = new_filename
+                else:
+                    print(f"   ⚠️  Could not classify, keeping original name")
+                    classified_files.append(temp_file_path)
+
+            temp_files = classified_files
+
         print(f"   📸 Prepared {len(temp_files)} files for upload")
 
         # Upload files to release using GitHub CLI
@@ -319,6 +494,7 @@ def generate_github_urls(
     use_prefix=True,
     prefix_method="hash",
     sequential_numbering=False,
+    use_ai_classification=False,
 ):
     """Generate GitHub release URLs for photos with unique prefixes"""
     base_url = "https://github.com/smithclint/waypoint-media-site/releases/download"
@@ -331,7 +507,7 @@ def generate_github_urls(
     for counter, photo_file in enumerate(photo_files, 1):
         original_filename = os.path.basename(photo_file)
 
-        # Generate new filename with prefix
+        # Generate new filename with prefix (no AI classification here - done later)
         if use_prefix:
             if sequential_numbering:
                 new_filename = generate_prefixed_filename(
@@ -429,6 +605,12 @@ def main():
     parser.add_argument("--title", help="Display title for the shoot")
     parser.add_argument("--description", help="Description of the shoot")
     parser.add_argument(
+        "--featured-photo",
+        type=int,
+        default=0,
+        help="Index of the photo to use as the main preview (0-based, default: 0)",
+    )
+    parser.add_argument(
         "--category",
         default="residential",
         choices=[
@@ -518,6 +700,11 @@ def main():
         "--no-downsample",
         action="store_true",
         help="Skip image downsampling (upload original sizes)",
+    )
+    parser.add_argument(
+        "--ai-classify",
+        action="store_true",
+        help="Use OpenAI Vision API to automatically classify room types and include in filenames",
     )
 
     args = parser.parse_args()
@@ -623,6 +810,7 @@ def main():
             use_prefix,
             prefix_method,
             sequential_numbering,
+            use_ai_classification=False,
         ):
             urls = []
             base_url = (
@@ -676,6 +864,7 @@ def main():
             use_prefix,
             args.prefix_method,
             args.sequential,
+            args.ai_classify,
         )
     else:
         photo_urls = generate_github_urls(
@@ -686,6 +875,7 @@ def main():
             use_prefix,
             args.prefix_method,
             args.sequential,
+            args.ai_classify,
         )
 
     # Show filename preview if requested
@@ -717,7 +907,7 @@ def main():
             if use_prefix
             else None
         ),
-        "photo_count": len(photo_urls),
+        "featured_photo_index": args.featured_photo,
     }
 
     # Update photos.json
@@ -730,8 +920,15 @@ def main():
     # Auto-upload photos if requested
     if args.auto_upload and not args.dry_run and not args.preview_names:
         upload_success = upload_photos_to_release(
-            tag_name, photo_urls, args.photos, args.force_reupload,
-            args.max_width, args.max_height, args.quality, args.no_downsample
+            tag_name,
+            photo_urls,
+            args.photos,
+            args.force_reupload,
+            args.max_width,
+            args.max_height,
+            args.quality,
+            args.no_downsample,
+            args.ai_classify,
         )
         if upload_success:
             print(f"\n🎉 Complete! Photos uploaded and website updated.")
@@ -751,8 +948,15 @@ def main():
         # For upload-only mode, try to upload without updating photos.json
         if args.auto_upload:
             upload_photos_to_release(
-                tag_name, photo_urls, args.photos, args.force_reupload,
-                args.max_width, args.max_height, args.quality, args.no_downsample
+                tag_name,
+                photo_urls,
+                args.photos,
+                args.force_reupload,
+                args.max_width,
+                args.max_height,
+                args.quality,
+                args.no_downsample,
+                args.ai_classify,
             )
         return
 

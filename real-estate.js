@@ -5,43 +5,55 @@ let portfolioData = {};
 
 // Function to sort images by priority based on filename keywords
 function sortImagesByPriority(images) {
-  const getImagePriority = url => {
-    const filename = url.toLowerCase();
-
-    // High priority (show first) - lower numbers
-    if (filename.includes('exterior')) return 1;
-    if (filename.includes('living') || filename.includes('family')) return 2;
-    if (filename.includes('kitchen')) return 3;
-    if (filename.includes('dining')) return 4;
-    if (filename.includes('master') || filename.includes('primary')) return 5;
-    if (filename.includes('bedroom')) return 6;
-    if (filename.includes('bathroom') || filename.includes('bath')) return 7;
-    if (filename.includes('pool') || filename.includes('patio')) return 8;
-
-    // Medium priority (middle)
-    if (filename.includes('office') || filename.includes('study')) return 10;
-    if (filename.includes('guest')) return 11;
-    if (filename.includes('laundry')) return 12;
-
-    // Low priority (show last) - higher numbers
-    if (filename.includes('closet')) return 15;
-    if (filename.includes('storage')) return 16;
-    if (filename.includes('utility')) return 17;
-    if (filename.includes('garage')) return 18;
-    if (filename.includes('attic') || filename.includes('basement')) return 19;
-
-    // Default priority for unmatched images
-    return 9;
+  const roomPriority = {
+    exterior: 1,
+    living: 2,
+    kitchen: 3,
+    dining: 4,
+    family: 5,
+    great: 6,
+    den: 7,
+    office: 8,
+    study: 9,
+    library: 10,
+    master: 11,
+    bedroom: 12,
+    bathroom: 13,
+    garage: 14,
+    closet: 15,
+    laundry: 16,
+    utility: 17,
+    pantry: 18,
+    storage: 19,
+    attic: 20,
+    basement: 21,
   };
 
   return images.sort((a, b) => {
-    const priorityA = getImagePriority(a.url);
-    const priorityB = getImagePriority(b.url);
-    return priorityA - priorityB;
-  });
-}
+    const aFilename = a.url.split('/').pop().toLowerCase();
+    const bFilename = b.url.split('/').pop().toLowerCase();
 
-// Fetch photo data on page load
+    let aPriority = 999;
+    let bPriority = 999;
+
+    // Check each room type in the filename
+    for (let room in roomPriority) {
+      if (aFilename.includes(room)) {
+        aPriority = Math.min(aPriority, roomPriority[room]);
+      }
+      if (bFilename.includes(room)) {
+        bPriority = Math.min(bPriority, roomPriority[room]);
+      }
+    }
+
+    if (aPriority !== bPriority) {
+      return aPriority - bPriority;
+    }
+
+    // If same priority, sort by filename
+    return aFilename.localeCompare(bFilename);
+  });
+} // Fetch photo data on page load
 async function loadPhotoData() {
   try {
     const response = await fetch('photos.json');
@@ -337,13 +349,12 @@ function openShootModal(shootId) {
     const imageItem = document.createElement('div');
     imageItem.className = 'shoot-image-item';
     imageItem.innerHTML = `
-      <img src="${image.url}" alt="${image.caption}" loading="lazy" />
-      <div class="image-caption">${image.caption}</div>
+      <img src="${image.url}" alt="" loading="lazy" />
     `;
 
     // Add click to enlarge functionality
     imageItem.addEventListener('click', () => {
-      enlargeImage(image.url, image.caption, shootData.images, index);
+      enlargeImage(image.url, '', shootData.images, index);
     });
 
     imageGrid.appendChild(imageItem);
@@ -369,8 +380,7 @@ function enlargeImage(imageUrl, caption, allImages, currentIndex) {
 
   overlay.innerHTML = `
     <div class="image-overlay-content">
-      <img src="${imageUrl}" alt="${caption}" />
-      <div class="image-overlay-caption">${caption}</div>
+      <img src="${imageUrl}" alt="" />
       <button class="image-overlay-close">&times;</button>
       ${hasPrevious ? '<button class="image-overlay-nav image-overlay-prev">‹</button>' : ''}
       ${hasNext ? '<button class="image-overlay-nav image-overlay-next">›</button>' : ''}
@@ -384,24 +394,14 @@ function enlargeImage(imageUrl, caption, allImages, currentIndex) {
   const showPrevious = () => {
     if (currentIndex > 0) {
       document.body.removeChild(overlay);
-      enlargeImage(
-        allImages[currentIndex - 1].url,
-        allImages[currentIndex - 1].caption,
-        allImages,
-        currentIndex - 1
-      );
+      enlargeImage(allImages[currentIndex - 1].url, '', allImages, currentIndex - 1);
     }
   };
 
   const showNext = () => {
     if (currentIndex < allImages.length - 1) {
       document.body.removeChild(overlay);
-      enlargeImage(
-        allImages[currentIndex + 1].url,
-        allImages[currentIndex + 1].caption,
-        allImages,
-        currentIndex + 1
-      );
+      enlargeImage(allImages[currentIndex + 1].url, '', allImages, currentIndex + 1);
     }
   };
 
