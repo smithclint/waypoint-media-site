@@ -168,8 +168,16 @@ function updatePortfolioGrid() {
     }
 
     // Use the featured photo or first image as the preview
-    const featuredIndex = shoot.featured_photo_index || 0;
-    const previewImage = shoot.images[featuredIndex] || shoot.images[0];
+    let previewImage;
+    if (shoot.featured_photo_index && typeof shoot.featured_photo_index === 'string') {
+      // Find image by filename
+      previewImage = shoot.images.find(img => img.url.includes(shoot.featured_photo_index));
+    } else if (typeof shoot.featured_photo_index === 'number') {
+      // Use numeric index (fallback for old format)
+      previewImage = shoot.images[shoot.featured_photo_index];
+    }
+    // Default to first image if featured photo not found
+    previewImage = previewImage || shoot.images[0];
 
     const portfolioItem = document.createElement('div');
     portfolioItem.className = 'portfolio-item';
