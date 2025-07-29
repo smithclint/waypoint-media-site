@@ -100,11 +100,13 @@ async function loadPhotosFromReleases(shootMetadata) {
           console.log(`✅ Loaded ${images.length} photos for ${shootId} from GitHub release`);
         } else {
           console.warn(`❌ Could not fetch release data for ${shootId}: ${releaseResponse.status}`);
-          enrichedData[shootId].images = metadata.images || [];
+          // For local testing, provide some fallback images if GitHub is not accessible
+          enrichedData[shootId].images = createLocalFallbackImages(shootId);
         }
       } catch (error) {
         console.warn(`❌ Error loading photos for ${shootId}:`, error);
-        enrichedData[shootId].images = metadata.images || [];
+        // For local testing, provide some fallback images if GitHub is not accessible
+        enrichedData[shootId].images = createLocalFallbackImages(shootId);
       }
     } else {
       // Use existing images array if no release_tag
@@ -113,6 +115,16 @@ async function loadPhotosFromReleases(shootMetadata) {
   }
 
   return enrichedData;
+}
+
+// Create fallback images for local testing when GitHub releases are not accessible
+function createLocalFallbackImages(shootId) {
+  const colors = ['2c3e50', '34495e', '3498db', '2980b9', 'e74c3c', 'c0392b'];
+  const roomTypes = ['exterior', 'living', 'kitchen', 'bedroom', 'bathroom'];
+
+  return roomTypes.map((room, index) => ({
+    url: `https://via.placeholder.com/800x600/${colors[index % colors.length]}/ffffff?text=${shootId}+${room}+${index + 1}`,
+  }));
 }
 
 // Fallback data in case photos.json isn't available
@@ -382,35 +394,52 @@ function enlargeImage(imageUrl, caption, allImages, currentIndex) {
     <div class="image-overlay-content">
       <img src="${imageUrl}" alt="" />
       <button class="image-overlay-close">&times;</button>
-      ${hasPrevious ? '<button class="image-overlay-nav image-overlay-prev">‹</button>' : ''}
-      ${hasNext ? '<button class="image-overlay-nav image-overlay-next">›</button>' : ''}
+      <button class="image-overlay-nav image-overlay-prev">‹</button>
+      <button class="image-overlay-nav image-overlay-next">›</button>
     </div>
   `;
 
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
+  // Get references to elements we'll update
+  const overlayImg = overlay.querySelector('img');
+  const prevBtn = overlay.querySelector('.image-overlay-prev');
+  const nextBtn = overlay.querySelector('.image-overlay-next');
+
+  // Function to update the current image and navigation state
+  const updateImage = newIndex => {
+    currentIndex = newIndex;
+    overlayImg.src = allImages[currentIndex].url;
+
+    // Update navigation button visibility
+    if (prevBtn) {
+      prevBtn.style.display = currentIndex > 0 ? 'block' : 'none';
+    }
+    if (nextBtn) {
+      nextBtn.style.display = currentIndex < allImages.length - 1 ? 'block' : 'none';
+    }
+  };
+
   // Navigation functions
   const showPrevious = () => {
     if (currentIndex > 0) {
-      document.body.removeChild(overlay);
-      enlargeImage(allImages[currentIndex - 1].url, '', allImages, currentIndex - 1);
+      updateImage(currentIndex - 1);
     }
   };
 
   const showNext = () => {
     if (currentIndex < allImages.length - 1) {
-      document.body.removeChild(overlay);
-      enlargeImage(allImages[currentIndex + 1].url, '', allImages, currentIndex + 1);
+      updateImage(currentIndex + 1);
     }
   };
 
   // Add navigation event listeners
-  const prevBtn = overlay.querySelector('.image-overlay-prev');
-  const nextBtn = overlay.querySelector('.image-overlay-next');
-
   if (prevBtn) prevBtn.addEventListener('click', showPrevious);
   if (nextBtn) nextBtn.addEventListener('click', showNext);
+
+  // Set initial navigation button visibility
+  updateImage(currentIndex);
 
   // Close overlay on click
   overlay.addEventListener('click', function (e) {
