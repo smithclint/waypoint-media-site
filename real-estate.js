@@ -167,8 +167,9 @@ function updatePortfolioGrid() {
       return;
     }
 
-    // Use the first image as the preview
-    const previewImage = shoot.images[0];
+    // Use the featured photo or first image as the preview
+    const featuredIndex = shoot.featured_photo_index || 0;
+    const previewImage = shoot.images[featuredIndex] || shoot.images[0];
 
     const portfolioItem = document.createElement('div');
     portfolioItem.className = 'portfolio-item';

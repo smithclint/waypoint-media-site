@@ -2,7 +2,7 @@
   "sugar-mill-pool-home": {
     "category": "luxury-homes",
     "description": "Stunning aerial views of a luxurious pool home featuring modern architecture and beautiful landscaping",
-    "photo_count": 45,
+    "featured_photo_index": 0,
     "release_tag": "real-estate-sugar-mill-pool-home-v1.0",
     "shoot_prefix": "sugar-mi-5dfef1",
     "title": "Sugar Mill Pool Home"
