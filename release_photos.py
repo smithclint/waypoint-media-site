@@ -19,6 +19,14 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+try:
+    from PIL import Image
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
+    print("⚠️  PIL/Pillow not available. Install with: pip install Pillow")
+    print("   Image downsampling will be skipped.")
+
 
 def generate_unique_prefix(shoot_name, method="hash"):
     """Generate a unique prefix for photos based on shoot name"""
@@ -45,6 +53,46 @@ def generate_prefixed_filename(original_filename, prefix, counter=None):
         return f"{prefix}-{name}{ext}"
 
 
+def downsample_image(input_path, output_path, max_width=1920, max_height=1080, quality=85):
+    """Downsample image for web optimization"""
+    if not PIL_AVAILABLE:
+        # If PIL not available, just copy the original
+        shutil.copy2(input_path, output_path)
+        return False
+    
+    try:
+        with Image.open(input_path) as img:
+            # Convert to RGB if necessary (handles RGBA, etc.)
+            if img.mode in ('RGBA', 'LA', 'P'):
+                img = img.convert('RGB')
+            
+            # Calculate new dimensions maintaining aspect ratio
+            width, height = img.size
+            if width <= max_width and height <= max_height:
+                # Image is already small enough, but still optimize quality
+                img.save(output_path, 'JPEG', quality=quality, optimize=True)
+                return True
+            
+            # Calculate resize ratio
+            width_ratio = max_width / width
+            height_ratio = max_height / height
+            ratio = min(width_ratio, height_ratio)
+            
+            new_width = int(width * ratio)
+            new_height = int(height * ratio)
+            
+            # Resize and save
+            resized_img = img.resize((new_width, new_height), Image.LANCZOS)
+            resized_img.save(output_path, 'JPEG', quality=quality, optimize=True)
+            
+            return True
+    except Exception as e:
+        print(f"   ⚠️  Error downsampling {input_path}: {e}")
+        # Fallback to copying original
+        shutil.copy2(input_path, output_path)
+        return False
+
+
 def get_existing_release_assets(tag_name):
     """Get list of existing assets in the GitHub release"""
     try:
@@ -61,7 +109,8 @@ def get_existing_release_assets(tag_name):
 
 
 def upload_photos_to_release(
-    tag_name, photo_urls, base_photos_dir, force_reupload=False
+    tag_name, photo_urls, base_photos_dir, force_reupload=False, 
+    max_width=1920, max_height=1080, quality=85, no_downsample=False
 ):
     """Upload photos to GitHub release using GitHub CLI"""
     print(f"\n📤 Preparing to upload {len(photo_urls)} photos to release...")
@@ -169,8 +218,10 @@ def upload_photos_to_release(
     with tempfile.TemporaryDirectory() as temp_dir:
         print(f"   📁 Creating temporary renamed files...")
 
-        # Copy and rename files to temp directory
+        # Copy and rename files to temp directory with downsampling
         temp_files = []
+        downsampled_count = 0
+        
         for photo_data in photos_to_upload:
             original_path = None
 
@@ -189,9 +240,20 @@ def upload_photos_to_release(
                 )
                 continue
 
-            # Copy file with new name to temp directory
+            # Process and save file with new name to temp directory
             temp_file_path = Path(temp_dir) / photo_data["filename"]
-            shutil.copy2(original_path, temp_file_path)
+            
+            if no_downsample:
+                # Just copy without downsampling
+                shutil.copy2(original_path, temp_file_path)
+            else:
+                # Convert to .jpg for consistency and smaller file size
+                temp_file_path = temp_file_path.with_suffix('.jpg')
+                photo_data["filename"] = temp_file_path.name  # Update filename in data
+                
+                if downsample_image(original_path, temp_file_path, max_width, max_height, quality):
+                    downsampled_count += 1
+            
             temp_files.append(str(temp_file_path))
 
         if not temp_files:
@@ -200,6 +262,8 @@ def upload_photos_to_release(
                 len(skipped_photos) > 0
             )  # Return True if we skipped files (means some success)
 
+        if downsampled_count > 0:
+            print(f"   🔧 Downsampled {downsampled_count} images for web optimization")
         print(f"   📸 Prepared {len(temp_files)} files for upload")
 
         # Upload files to release using GitHub CLI
@@ -432,6 +496,29 @@ def main():
         action="store_true",
         help="Force re-upload of all photos, even if they already exist",
     )
+    parser.add_argument(
+        "--max-width",
+        type=int,
+        default=1920,
+        help="Maximum width for downsampled images (default: 1920)",
+    )
+    parser.add_argument(
+        "--max-height",
+        type=int,
+        default=1080,
+        help="Maximum height for downsampled images (default: 1080)",
+    )
+    parser.add_argument(
+        "--quality",
+        type=int,
+        default=85,
+        help="JPEG quality for downsampled images (1-100, default: 85)",
+    )
+    parser.add_argument(
+        "--no-downsample",
+        action="store_true",
+        help="Skip image downsampling (upload original sizes)",
+    )
 
     args = parser.parse_args()
 
@@ -642,7 +729,10 @@ def main():
 
     # Auto-upload photos if requested
     if args.auto_upload and not args.dry_run and not args.preview_names:
-        upload_success = upload_photos_to_release(tag_name, photo_urls, args.photos)
+        upload_success = upload_photos_to_release(
+            tag_name, photo_urls, args.photos, args.force_reupload,
+            args.max_width, args.max_height, args.quality, args.no_downsample
+        )
         if upload_success:
             print(f"\n🎉 Complete! Photos uploaded and website updated.")
             print(
@@ -660,7 +750,10 @@ def main():
     if args.upload_only:
         # For upload-only mode, try to upload without updating photos.json
         if args.auto_upload:
-            upload_photos_to_release(tag_name, photo_urls, args.photos)
+            upload_photos_to_release(
+                tag_name, photo_urls, args.photos, args.force_reupload,
+                args.max_width, args.max_height, args.quality, args.no_downsample
+            )
         return
 
     # Print upload instructions with filename mapping

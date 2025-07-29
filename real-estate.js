@@ -1,6 +1,10 @@
 // Real Estate Portfolio JavaScript
 
-// Load photo data from photos.json and GitHub releases
+//           const images = releaseData.assets
+            .filter(asset => asset.name.match(/\.(jpg|jpeg|png|webp)$/i))
+            .map(asset => ({
+              url: asset.browser_download_url
+            }));hoto data from photos.json and GitHub releases
 let portfolioData = {};
 
 // Fetch photo data on page load
@@ -42,7 +46,6 @@ async function loadPhotosFromReleases(shootMetadata) {
             .filter(asset => asset.name.match(/\.(jpg|jpeg|png|webp)$/i))
             .map(asset => ({
               url: asset.browser_download_url,
-              caption: generateCaptionFromFilename(asset.name, metadata.shoot_prefix),
             }));
 
           enrichedData[shootId].images = images;
@@ -62,21 +65,6 @@ async function loadPhotosFromReleases(shootMetadata) {
   }
 
   return enrichedData;
-}
-
-// Generate a clean caption from filename
-function generateCaptionFromFilename(filename, shootPrefix) {
-  // Remove the shoot prefix and file extension
-  let caption = filename;
-  if (shootPrefix) {
-    caption = caption.replace(new RegExp(`^${shootPrefix}-`, 'i'), '');
-  }
-  caption = caption.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-
-  // Convert hyphens and underscores to spaces, then title case
-  caption = caption.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-
-  return caption;
 }
 
 // Fallback data in case photos.json isn't available
