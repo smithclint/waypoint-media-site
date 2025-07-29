@@ -265,8 +265,10 @@ function openVideoModal(projectId) {
     modalVideo.load(); // Reload video with new source
   }
   if (modalDescription) modalDescription.textContent = project.description;
-  if (modalType) modalType.textContent = formatProjectType(project.type);
-  if (modalDate) modalDate.textContent = formatDate(project.date);
+  if (modalType)
+    modalType.innerHTML = `<i class="fas fa-tag"></i> ${formatProjectType(project.type)}`;
+  if (modalDate)
+    modalDate.innerHTML = `<i class="fas fa-calendar"></i> ${formatDate(project.date)}`;
 
   // Show modal
   if (modal) {
