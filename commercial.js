@@ -403,6 +403,28 @@ function openVideoModal(projectId) {
   if (modal) {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+    // Refresh video manager to pick up any new videos in the modal
+    if (window.videoManager) {
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        window.videoManager.refresh();
+
+        // Also handle video preloading for modal videos
+        if (window.videoPreloader) {
+          const modalVideo = document.getElementById('modal-video');
+          if (modalVideo) {
+            window.videoPreloader.handleModalVideo(modalVideo);
+          }
+
+          // Handle gallery videos in modal
+          const galleryVideos = document.querySelectorAll('#video-gallery video');
+          galleryVideos.forEach(video => {
+            window.videoPreloader.addVideo(video);
+          });
+        }
+      }, 100);
+    }
   }
 }
 
@@ -416,19 +438,25 @@ function closeVideoModal() {
     document.body.style.overflow = ''; // Restore scrolling
   }
 
-  // Pause single video
-  if (modalVideo) {
-    modalVideo.pause();
-    modalVideo.currentTime = 0;
-  }
+  // Use video manager to pause all videos if available
+  if (window.videoManager) {
+    window.videoManager.pauseAllVideos();
+  } else {
+    // Fallback to manual pausing
+    // Pause single video
+    if (modalVideo) {
+      modalVideo.pause();
+      modalVideo.currentTime = 0;
+    }
 
-  // Pause all gallery videos
-  if (videoGallery) {
-    const galleryVideos = videoGallery.querySelectorAll('video');
-    galleryVideos.forEach(video => {
-      video.pause();
-      video.currentTime = 0;
-    });
+    // Pause all gallery videos
+    if (videoGallery) {
+      const galleryVideos = videoGallery.querySelectorAll('video');
+      galleryVideos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    }
   }
 }
 
