@@ -1,0 +1,38 @@
+# Waypoint Media - Clean URLs Configuration
+RewriteEngine On
+
+# Redirect root to pages directory
+RewriteRule ^$ pages/ [R=301,L]
+
+# Handle pages directory clean URLs
+RewriteCond %{REQUEST_URI} ^/pages/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/pages/$1.html -f
+RewriteRule ^pages/(.*)$ pages/$1.html [L]
+
+# Redirect .html URLs to clean URLs in pages directory
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+pages/([^.\s]+)\.html[\s?] [NC]
+RewriteRule ^ /pages/%1? [R=301,L]
+
+# Security and performance headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Cache optimization
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+</IfModule>

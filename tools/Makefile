@@ -49,10 +49,12 @@ serve:
 # CORS-enabled development server (needed for video preloading)
 serve-cors:
 	@echo "🚀 Starting CORS-enabled server at http://localhost:8080"
-	@echo "🏠 Main Site: http://localhost:8080/pages/"
-	@echo "🏘️  Real Estate: http://localhost:8080/pages/real-estate.html"
-	@echo "📞 Contact: http://localhost:8080/pages/contact.html"
+	@echo "🏠 Main Site: http://localhost:8080/ (auto-redirects to pages/)"
+	@echo "🏘️  Real Estate: http://localhost:8080/pages/real-estate (clean URL)"
+	@echo "📞 Contact: http://localhost:8080/pages/contact (clean URL)"
+	@echo "🎬 Commercial: http://localhost:8080/pages/commercial (clean URL)"
 	@echo "📹 This server resolves video preloading CORS issues"
+	@echo "🔗 Note: Clean URLs active (no .html extensions needed)"
 	@echo "Press Ctrl+C to stop"
 	python3 tools/cors_server.py
 
