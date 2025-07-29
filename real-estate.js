@@ -360,13 +360,17 @@ function openShootModal(shootId) {
   shootData.images.forEach((image, index) => {
     const imageItem = document.createElement('div');
     imageItem.className = 'shoot-image-item';
+
+    const hasCaption = image.caption && image.caption.trim() !== '';
+
     imageItem.innerHTML = `
       <img src="${image.url}" alt="" loading="lazy" />
+      ${hasCaption ? `<div class="image-caption">${image.caption}</div>` : ''}
     `;
 
     // Add click to enlarge functionality
     imageItem.addEventListener('click', () => {
-      enlargeImage(image.url, '', shootData.images, index);
+      enlargeImage(image.url, image.caption || '', shootData.images, index);
     });
 
     imageGrid.appendChild(imageItem);
@@ -396,6 +400,7 @@ function enlargeImage(imageUrl, caption, allImages, currentIndex) {
       <button class="image-overlay-close">&times;</button>
       <button class="image-overlay-nav image-overlay-prev">‹</button>
       <button class="image-overlay-nav image-overlay-next">›</button>
+      <div class="image-overlay-caption"></div>
     </div>
   `;
 
@@ -406,11 +411,22 @@ function enlargeImage(imageUrl, caption, allImages, currentIndex) {
   const overlayImg = overlay.querySelector('img');
   const prevBtn = overlay.querySelector('.image-overlay-prev');
   const nextBtn = overlay.querySelector('.image-overlay-next');
+  const captionDiv = overlay.querySelector('.image-overlay-caption');
 
   // Function to update the current image and navigation state
   const updateImage = newIndex => {
     currentIndex = newIndex;
-    overlayImg.src = allImages[currentIndex].url;
+    const currentImage = allImages[currentIndex];
+    overlayImg.src = currentImage.url;
+
+    // Update caption
+    const hasCaption = currentImage.caption && currentImage.caption.trim() !== '';
+    if (hasCaption) {
+      captionDiv.textContent = currentImage.caption;
+      captionDiv.style.display = 'block';
+    } else {
+      captionDiv.style.display = 'none';
+    }
 
     // Update navigation button visibility
     if (prevBtn) {
