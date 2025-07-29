@@ -1,0 +1,32 @@
+{
+  "commercial-boxdrop-furniture-store": {
+    "category": "retail",
+    "description": "Professional marketing videos showcasing furniture displays and store atmosphere",
+    "title": "BoxDrop Furniture Store",
+    "videos": {
+      "Selects.30.fps.Trimmed_HD_H264.mp4": {
+        "description": "Short promotional video for social media",
+        "title": "Store Overview - Trimmed for a Facebook Ad"
+      },
+      "Selects.30.fps_HD_H264.mp4": {
+        "description": "Full version of the store overview video",
+        "title": "Store Overview for Business Website"
+      }
+    }
+  },
+  "commercial-hideaway-campground": {
+    "category": "hospitality",
+    "description": "Cinematic showcase of luxury RV resort amenities and natural beauty",
+    "title": "The Hideaway Campground",
+    "videos": {
+      "hideaway-commercial.mp4": {
+        "description": "Full cinematic tour of campground facilities",
+        "title": "Resort Showcase"
+      },
+      "hideaway-social.mp4": {
+        "description": "Vertical format for social media promotion",
+        "title": "Social Teaser"
+      }
+    }
+  }
+}

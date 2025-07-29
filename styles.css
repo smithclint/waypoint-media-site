@@ -2,72 +2,119 @@
 .intro-offer-banner {
   background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 1000;
+  font-size: 0.9rem;
 }
 
 .banner-content {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: center;
   padding: 0 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+}
+
+.banner-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.banner-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.inline-cta {
+  color: #fff !important;
+  text-decoration: underline !important;
+  font-weight: 700 !important;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease;
+  display: inline !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  min-width: auto !important;
+  transform: none !important;
+}
+
+.inline-cta:hover {
+  color: #ffeb3b !important;
+  text-decoration: underline !important;
+  background: none !important;
+  transform: none !important;
 }
 
 .offer-text h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.3rem;
-  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .offer-text p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  opacity: 0.95;
 }
 
 .guarantee {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 0.8rem;
 }
 
 .offer-cta .cta-button {
   background: white;
   color: #e74c3c;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   text-decoration: none;
-  border-radius: 25px;
-  font-weight: 600;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
   transition: all 0.3s ease;
   display: inline-block;
 }
 
 .offer-cta .cta-button:hover {
   background: #f8f9fb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
   .banner-content {
     flex-direction: column;
     text-align: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
   }
 
   .offer-text h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .offer-text p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  .guarantee {
+    font-size: 0.75rem;
+  }
+
+  .offer-cta .cta-button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
   }
 }
 
@@ -92,7 +139,7 @@ body {
 .waypoint-hero {
   position: relative;
   width: 100%;
-  min-height: 60vh;
+  min-height: 35vh;
   overflow: hidden;
 }
 
@@ -105,10 +152,10 @@ body {
 
 .hero-banner {
   width: 100%;
-  height: 55vh;
+  height: 35vh;
   object-fit: cover;
   object-position: center center;
-  margin-top: -7.5vh;
+  margin-top: 1.5vh;
 }
 
 /* Hero Text Section */
@@ -967,6 +1014,7 @@ a:hover {
   color: #666;
   max-width: 600px;
   margin: 0 auto;
+  font-style: italic;
 }
 
 .contact-methods {
@@ -1158,6 +1206,189 @@ a:hover {
 
   .info-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Portfolio Header Styles */
+.portfolio-header {
+  background: #f8f9fb;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.portfolio-header-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.portfolio-header h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.portfolio-subtitle {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.portfolio-stats {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-item i {
+  font-size: 1.8rem;
+  color: #3498db;
+  margin-bottom: 0.5rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .portfolio-header h1 {
+    font-size: 2rem;
+  }
+
+  .portfolio-stats {
+    gap: 2rem;
+  }
+
+  .stat-item i {
+    font-size: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+}
+
+/* Reviews Section Styles */
+.reviews-section {
+  background: #f8f9fb;
+  padding: 4rem 2rem;
+}
+
+.reviews-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reviews-section h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  font-weight: 700;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.review-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stars {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.stars i {
+  color: #f39c12;
+  font-size: 1.2rem;
+}
+
+.review-content p {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.review-author {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.review-author strong {
+  display: block;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.review-author span {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.verified-badge {
+  display: inline-block;
+  color: #27ae60 !important;
+  font-size: 0.8rem !important;
+  margin-left: 0.5rem;
+}
+
+.verified-badge i {
+  margin-right: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .reviews-section h2 {
+    font-size: 2rem;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .review-card {
+    padding: 1.5rem;
   }
 }
 
@@ -1477,6 +1708,16 @@ a:hover {
   .video-details {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  /* Video gallery responsive */
+  .video-gallery {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .video-gallery-item {
+    margin: 0;
   }
 
   .commercial-services h2 {
@@ -2190,13 +2431,6 @@ a:hover {
   height: 100%;
 }
 
-.portfolio-grid .project-info {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .project-info h3 {
   margin: 0 0 0.75rem 0;
   font-size: 1.2rem;
@@ -2253,7 +2487,7 @@ a:hover {
   gap: 0.5rem;
 }
 
-.portfolio-grid .view-project-btn {
+.commercial-page .portfolio-grid .view-project-btn {
   background: #3498db;
   color: white;
   border: none;
@@ -2269,6 +2503,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  flex: 0 0 auto;
 }
 
 .view-project-btn:hover,
@@ -2277,17 +2512,114 @@ a:hover {
 }
 
 /* Commercial Portfolio Specific Styling */
-.portfolio-grid .portfolio-item .video-container {
-  position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  background: #f8f9fa;
+.commercial-page .portfolio-grid {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 380px));
 }
 
-.portfolio-grid .portfolio-item .video-container video {
+.commercial-page .portfolio-item {
+  display: flex;
+  flex-direction: column;
+  height: 520px; /* Fixed height for consistency */
+}
+
+.commercial-page .portfolio-grid .portfolio-item .video-container {
+  position: relative;
+  height: 220px; /* Fixed height instead of aspect-ratio */
+  overflow: hidden;
+  background: #f8f9fa;
+  flex: 0 0 auto;
+  padding-bottom: 0 !important; /* Override general video-container */
+}
+
+.commercial-page .portfolio-grid .portfolio-item .video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border: 0;
+}
+
+/* Ensure project-info fills remaining space */
+.commercial-page .portfolio-grid .project-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: calc(100% - 220px); /* Remaining height after video */
+  min-height: 0;
+}
+
+.commercial-page .project-info h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commercial-page .project-info .project-description {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3em;
+}
+
+.commercial-page .project-meta {
+  margin: 0 0 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #777;
+  flex: 0 0 auto;
+}
+
+.commercial-page .portfolio-grid .portfolio-item .video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.commercial-page .portfolio-grid .portfolio-item:hover .video-overlay {
+  opacity: 1;
+}
+
+.commercial-page .portfolio-grid .portfolio-item .play-button {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3498db;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.commercial-page .portfolio-grid .portfolio-item .play-button:hover {
+  background: white;
+  transform: scale(1.1);
 }
 
 .portfolio-grid .portfolio-item .video-overlay {
@@ -2489,6 +2821,77 @@ a:hover {
   border-radius: 20px;
 }
 
+/* Video Gallery Styles for Multiple Videos */
+.video-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  align-items: stretch; /* Ensure equal heights */
+}
+
+.video-gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.gallery-video-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px 12px 0 0;
+  max-height: 400px; /* Limit height for portrait videos */
+  object-fit: contain; /* Maintain aspect ratio */
+  flex: 1;
+}
+
+/* Handle portrait videos specifically */
+.gallery-video-container video[style*='aspect-ratio'] {
+  max-height: 300px;
+}
+
+.gallery-video-container video.portrait-video {
+  max-height: 250px !important;
+  width: auto !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+.video-overlay-info {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  margin-top: auto; /* Push to bottom */
+  background: white;
+  border-radius: 0 0 12px 12px;
+}
+
+.video-overlay-info h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-transform: capitalize;
+}
+
+.video-overlay-info .video-description {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+}
+
 .shoot-description {
   text-align: center;
   margin-bottom: 2rem;
@@ -2683,6 +3086,7 @@ a:hover {
   .portfolio-grid {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    padding: 0 1rem;
   }
 
   .intro-features {
@@ -2716,11 +3120,60 @@ a:hover {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+
+  /* Portfolio Section Mobile */
+  .portfolio-section {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  /* Portfolio Controls Mobile - Hide grid/list toggle */
+  .portfolio-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .portfolio-controls h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .view-controls {
+    display: none; /* Hide grid/list toggle on mobile */
+  }
+
+  /* Force grid view on mobile */
+  .portfolio-list {
+    display: none !important;
+  }
+
+  .portfolio-grid {
+    display: grid !important;
+  }
+
+  /* Commercial Page Mobile Adjustments */
+  .commercial-page .portfolio-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .commercial-page .portfolio-item {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .commercial-page .portfolio-item:hover {
+    transform: none; /* Disable hover effects on mobile */
+  }
 }
 
 @media (max-width: 480px) {
   .portfolio-grid {
     grid-template-columns: 1fr;
+    padding: 0 0.5rem;
   }
 
   .portfolio-overlay {
@@ -2746,5 +3199,53 @@ a:hover {
 
   .image-overlay-next {
     right: 1rem;
+  }
+
+  /* Portfolio Section Ultra Mobile */
+  .portfolio-section {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .portfolio-controls h2 {
+    font-size: 1.3rem;
+  }
+
+  /* Commercial Page Ultra Mobile */
+  .commercial-page .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .commercial-page .portfolio-item {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Commercial Video Gallery Mobile */
+  .commercial-page .video-gallery {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .commercial-page .video-item {
+    margin: 0;
+  }
+
+  /* Modal adjustments for mobile */
+  .commercial-page .modal-content {
+    width: 98%;
+    margin: 1% auto;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .commercial-page .modal-video-container {
+    max-height: 50vh;
+  }
+
+  .commercial-page .modal-video-container video {
+    max-height: 50vh;
   }
 }

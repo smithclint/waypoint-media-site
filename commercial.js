@@ -2,7 +2,59 @@
 // Handles loading and displaying commercial video projects
 
 // Commercial projects data structure
-let commercialProjects = [];
+let commercialProjects = [
+  {
+    id: 'commercial-boxdrop-furniture-store',
+    title: 'BoxDrop Furniture Store',
+    description: 'Professional marketing videos showcasing furniture displays and store atmosphere',
+    type: 'retail',
+    category: 'retail',
+    date: '2025-07-29T18:42:06Z',
+    videoUrl:
+      'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4',
+    videoCount: 2,
+    allVideos: [
+      {
+        name: 'Selects.30.fps.Trimmed_HD_H264.mp4',
+        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4',
+        title: 'Store Overview - Trimmed for a Facebook Ad',
+        description: 'Short promotional video for social media',
+      },
+      {
+        name: 'Selects.30.fps_HD_H264.mp4',
+        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps_HD_H264.mp4',
+        title: 'Store Overview for Business Website',
+        description: 'Full version of the store overview video',
+      },
+    ],
+  },
+  {
+    id: 'commercial-hideaway-campground',
+    title: 'The Hideaway Campground',
+    description: 'Cinematic showcase of luxury RV resort amenities and natural beauty',
+    type: 'hospitality',
+    category: 'hospitality',
+    date: '2025-07-29T19:08:59Z',
+    videoUrl:
+      'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-commercial.mp4',
+    videoCount: 2,
+    allVideos: [
+      {
+        name: 'hideaway-commercial.mp4',
+        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-commercial.mp4',
+        title: 'Hideaway Campground - Commercial Version',
+        description: 'Full-length promotional video showcasing all amenities',
+      },
+      {
+        name: 'hideaway-social.mp4',
+        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-social.mp4',
+        title: 'Hideaway Campground - Social Media Cut',
+        description: 'Short version optimized for social media platforms',
+      },
+    ],
+  },
+];
+let commercialConfig = {};
 
 // GitHub API configuration
 const GITHUB_USERNAME = 'smithclint';
@@ -10,10 +62,34 @@ const GITHUB_REPO = 'waypoint-media-site';
 
 // Initialize portfolio
 document.addEventListener('DOMContentLoaded', function () {
-  loadCommercialProjects();
+  // Use static data instead of loading from API
+  console.log('Loading commercial projects from static data...');
+  updateProjectCount();
   initializeViewControls();
   initializeModal();
+
+  // Hide empty state and show projects
+  const container = document.getElementById('portfolio-grid');
+  const emptyState = document.getElementById('portfolio-empty');
+  if (emptyState) emptyState.style.display = 'none';
+  if (container) container.style.display = 'grid';
 });
+
+async function loadCommercialConfig() {
+  try {
+    const response = await fetch('commercial.json');
+    if (response.ok) {
+      commercialConfig = await response.json();
+      console.log('Commercial config loaded:', commercialConfig);
+    } else {
+      console.log('No commercial.json found, using default naming');
+      commercialConfig = {};
+    }
+  } catch (error) {
+    console.log('Error loading commercial config, using defaults:', error);
+    commercialConfig = {};
+  }
+}
 
 async function loadCommercialProjects() {
   try {
@@ -59,8 +135,12 @@ async function processCommercialRelease(release) {
   try {
     // Extract project info from release
     const tagName = release.tag_name;
-    const title = release.name || tagName.replace('commercial-', '').replace(/-/g, ' ');
-    const description = release.body || `Commercial video project: ${title}`;
+    const config = commercialConfig[tagName] || {};
+
+    // Use config title if available, otherwise format from tag name
+    const title =
+      config.title || release.name || tagName.replace('commercial-', '').replace(/-/g, ' ');
+    const description = config.description || release.body || `Commercial video project: ${title}`;
 
     // Get video files from release assets
     const videoAssets = release.assets.filter(asset =>
@@ -79,19 +159,30 @@ async function processCommercialRelease(release) {
     // Extract project type from tag name (everything after "commercial-")
     const projectType = tagName.replace('commercial-', '').split('-')[0];
 
+    // Process all videos with custom naming if available
+    const allVideos = videoAssets.map(asset => {
+      const videoConfig = config.videos && config.videos[asset.name];
+      return {
+        name: asset.name,
+        url: asset.browser_download_url,
+        size: asset.size,
+        title: videoConfig
+          ? videoConfig.title
+          : asset.name.replace(/\.[^/.]+$/, '').replace(/-/g, ' '),
+        description: videoConfig ? videoConfig.description : '',
+      };
+    });
+
     return {
       id: tagName,
       title: title,
       description: description,
       type: projectType,
+      category: config.category || 'general',
       date: release.published_at,
       videoUrl: videoUrl,
       videoCount: videoAssets.length,
-      allVideos: videoAssets.map(asset => ({
-        name: asset.name,
-        url: asset.browser_download_url,
-        size: asset.size,
-      })),
+      allVideos: allVideos,
       releaseUrl: release.html_url,
     };
   } catch (error) {
@@ -160,7 +251,7 @@ function renderProjects() {
                     }
                 </div>
                 <button class="view-project-btn" onclick="openVideoModal('${project.id}')">
-                    <i class="fas fa-play"></i> ${project.videoCount > 1 ? 'View' : 'Watch Video'}
+                    ${project.videoCount > 1 ? 'View' : '<i class="fas fa-play"></i> Watch Video'}
                 </button>
             </div>
         </div>
@@ -252,23 +343,61 @@ function openVideoModal(projectId) {
 
   const modal = document.getElementById('videoModal');
   const modalTitle = document.getElementById('modal-title');
-  const modalVideo = document.getElementById('modal-video');
-  const modalVideoSource = document.getElementById('modal-video-source');
   const modalDescription = document.getElementById('modal-description');
   const modalType = document.getElementById('modal-type');
   const modalDate = document.getElementById('modal-date');
 
+  const singleVideoContainer = document.getElementById('single-video-container');
+  const multipleVideosContainer = document.getElementById('multiple-videos-container');
+  const videoGallery = document.getElementById('video-gallery');
+
   // Update modal content
   if (modalTitle) modalTitle.textContent = project.title;
-  if (modalVideoSource) {
-    modalVideoSource.src = project.videoUrl;
-    modalVideo.load(); // Reload video with new source
-  }
   if (modalDescription) modalDescription.textContent = project.description;
   if (modalType)
     modalType.innerHTML = `<i class="fas fa-tag"></i> ${formatProjectType(project.type)}`;
   if (modalDate)
     modalDate.innerHTML = `<i class="fas fa-calendar"></i> ${formatDate(project.date)}`;
+
+  // Handle single vs multiple videos
+  if (project.videoCount === 1) {
+    // Show single video
+    const modalVideo = document.getElementById('modal-video');
+    const modalVideoSource = document.getElementById('modal-video-source');
+
+    if (modalVideoSource && modalVideo) {
+      modalVideoSource.src = project.videoUrl;
+      modalVideo.load();
+    }
+
+    singleVideoContainer.style.display = 'block';
+    multipleVideosContainer.style.display = 'none';
+  } else {
+    // Show multiple videos gallery
+    if (videoGallery) {
+      videoGallery.innerHTML = project.allVideos
+        .map(
+          (video, index) => `
+            <div class="video-gallery-item">
+              <div class="gallery-video-container">
+                <video controls preload="metadata" onloadedmetadata="handleVideoAspectRatio(this)">
+                  <source src="${video.url}" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay-info">
+                  <h4>${video.title}</h4>
+                  ${video.description ? `<p class="video-description">${video.description}</p>` : ''}
+                </div>
+              </div>
+            </div>
+          `
+        )
+        .join('');
+    }
+
+    singleVideoContainer.style.display = 'none';
+    multipleVideosContainer.style.display = 'block';
+  }
 
   // Show modal
   if (modal) {
@@ -280,15 +409,26 @@ function openVideoModal(projectId) {
 function closeVideoModal() {
   const modal = document.getElementById('videoModal');
   const modalVideo = document.getElementById('modal-video');
+  const videoGallery = document.getElementById('video-gallery');
 
   if (modal) {
     modal.style.display = 'none';
     document.body.style.overflow = ''; // Restore scrolling
   }
 
+  // Pause single video
   if (modalVideo) {
     modalVideo.pause();
     modalVideo.currentTime = 0;
+  }
+
+  // Pause all gallery videos
+  if (videoGallery) {
+    const galleryVideos = videoGallery.querySelectorAll('video');
+    galleryVideos.forEach(video => {
+      video.pause();
+      video.currentTime = 0;
+    });
   }
 }
 
@@ -296,4 +436,20 @@ function closeVideoModal() {
 window.refreshCommercialPortfolio = function () {
   console.log('Refreshing commercial portfolio...');
   loadCommercialProjects();
+};
+
+// Handle video aspect ratio for better display
+window.handleVideoAspectRatio = function (video) {
+  video.addEventListener('loadedmetadata', function () {
+    const aspectRatio = this.videoWidth / this.videoHeight;
+
+    // If portrait video (height > width), add special class
+    if (aspectRatio < 1) {
+      this.classList.add('portrait-video');
+      this.style.maxHeight = '250px';
+      this.style.width = 'auto';
+      this.style.margin = '0 auto';
+      this.style.display = 'block';
+    }
+  });
 };

@@ -34,20 +34,16 @@
     </script>
   </head>
 
-  <body>
+  <body class="commercial-page">
     <!-- Introductory Offer Banner -->
     <div class="intro-offer-banner">
       <div class="banner-content">
-        <div class="offer-text">
-          <h3>🎬 Commercial Video Special!</h3>
-          <p>
-            <strong>New business rates</strong> for marketing videos, promotional content, and business showcases.
-            <span class="guarantee">100% satisfaction guaranteed or no payment required.</span>
-          </p>
-        </div>
-        <div class="offer-cta">
-          <a href="contact.html" class="cta-button">Get Your Quote</a>
-        </div>
+        <h3>🎬 Commercial Video Special!</h3>
+        <p>
+          <strong>New business rates</strong> for marketing videos, promotional content, and business showcases.
+          <span class="guarantee">100% satisfaction guaranteed or no payment required.</span>
+          <strong><a href="contact.html" class="inline-cta">Get Your Quote</a></strong>
+        </p>
       </div>
     </div>
 
@@ -61,9 +57,6 @@
     <nav class="main-nav">
       <div class="nav-container">
         <a href="index.html" class="nav-link"> <i class="fas fa-home" style="margin-right: 8px"></i>Home </a>
-        <a href="index.html#services" class="nav-link">
-          <i class="fas fa-helicopter" style="margin-right: 8px"></i>Services
-        </a>
         <a href="real-estate.html" class="nav-link">
           <i class="fas fa-building" style="margin-right: 8px"></i>Real Estate
         </a>
@@ -77,13 +70,13 @@
     <div class="container">
       <!-- Portfolio Header -->
       <section class="portfolio-header">
-        <div class="header-content">
+        <div class="portfolio-header-content">
           <h1>Commercial Portfolio</h1>
           <p class="portfolio-subtitle">Professional video content for businesses and marketing campaigns</p>
           <div class="portfolio-stats">
             <div class="stat-item">
               <i class="fas fa-video"></i>
-              <span class="stat-number" id="project-count">0</span>
+              <span class="stat-number" id="project-count">2</span>
               <span class="stat-label">Projects</span>
             </div>
             <div class="stat-item">
@@ -93,7 +86,7 @@
             </div>
             <div class="stat-item">
               <i class="fas fa-clock"></i>
-              <span class="stat-number">24hr</span>
+              <span class="stat-number">Fast</span>
               <span class="stat-label">Response</span>
             </div>
           </div>
@@ -112,11 +105,71 @@
 
         <div id="portfolio-container">
           <div class="portfolio-grid" id="portfolio-grid">
-            <!-- Projects will be loaded here -->
+            <!-- BoxDrop Furniture Store Project -->
+            <div class="portfolio-item" data-project-id="commercial-boxdrop-furniture-store">
+              <div class="video-container">
+                <video poster="" preload="metadata" onclick="openVideoModal('commercial-boxdrop-furniture-store')">
+                  <source
+                    src="https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4"
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay">
+                  <div class="play-button">
+                    <i class="fas fa-play"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="project-info">
+                <h3>BoxDrop Furniture Store</h3>
+                <p class="project-description">
+                  Professional marketing videos showcasing furniture displays and store atmosphere
+                </p>
+                <div class="project-meta">
+                  <span class="project-type"> <i class="fas fa-tag"></i> Retail </span>
+                  <span class="project-date"> <i class="fas fa-calendar"></i> Jul 29, 2025 </span>
+                  <span class="video-count"> <i class="fas fa-video"></i> 2 videos </span>
+                </div>
+                <button class="view-project-btn" onclick="openVideoModal('commercial-boxdrop-furniture-store')">
+                  View Project
+                </button>
+              </div>
+            </div>
+
+            <!-- Hideaway Campground Project -->
+            <div class="portfolio-item" data-project-id="commercial-hideaway-campground">
+              <div class="video-container">
+                <video poster="" preload="metadata" onclick="openVideoModal('commercial-hideaway-campground')">
+                  <source
+                    src="https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-commercial.mp4"
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay">
+                  <div class="play-button">
+                    <i class="fas fa-play"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="project-info">
+                <h3>The Hideaway Campground</h3>
+                <p class="project-description">Cinematic showcase of luxury RV resort amenities and natural beauty</p>
+                <div class="project-meta">
+                  <span class="project-type"> <i class="fas fa-tag"></i> Hospitality </span>
+                  <span class="project-date"> <i class="fas fa-calendar"></i> Jul 29, 2025 </span>
+                  <span class="video-count"> <i class="fas fa-video"></i> 2 videos </span>
+                </div>
+                <button class="view-project-btn" onclick="openVideoModal('commercial-hideaway-campground')">
+                  View Project
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="portfolio-empty" id="portfolio-empty">
+        <div class="portfolio-empty" id="portfolio-empty" style="display: none">
           <div class="empty-state">
             <i class="fas fa-video"></i>
             <h3>Building Commercial Portfolio</h3>
@@ -191,6 +244,16 @@
         </div>
       </section>
 
+      <!-- Reviews Section -->
+      <section class="reviews-section" id="reviews-section" style="display: none">
+        <div class="reviews-container">
+          <h2>What Clients Say</h2>
+          <div class="reviews-grid" id="reviews-grid">
+            <!-- Reviews will be loaded dynamically from reviews/commercial.json -->
+          </div>
+        </div>
+      </section>
+
       <!-- Call to Action -->
       <section class="portfolio-cta">
         <div class="cta-content">
@@ -201,9 +264,7 @@
           </p>
           <div class="cta-buttons">
             <a href="contact.html" class="cta-button primary"> <i class="fas fa-video"></i> Get Your Quote </a>
-            <a href="index.html#services" class="cta-button secondary">
-              <i class="fas fa-info-circle"></i> Learn More
-            </a>
+            <a href="index.html" class="cta-button secondary"> <i class="fas fa-home"></i> View All Services </a>
           </div>
         </div>
       </section>
@@ -217,10 +278,21 @@
           <span class="close">&times;</span>
         </div>
         <div class="modal-body">
-          <video id="modal-video" controls>
-            <source id="modal-video-source" src="" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <!-- Single video container (for projects with 1 video) -->
+          <div id="single-video-container" style="display: none">
+            <video id="modal-video" controls>
+              <source id="modal-video-source" src="" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <!-- Multiple videos container (for projects with multiple videos) -->
+          <div id="multiple-videos-container" style="display: none">
+            <div id="video-gallery" class="video-gallery">
+              <!-- Multiple videos will be loaded here dynamically -->
+            </div>
+          </div>
+
           <div class="video-info">
             <p id="modal-description"></p>
             <div class="video-details">
@@ -250,5 +322,6 @@
     </footer>
 
     <script src="commercial.js"></script>
+    <script src="reviews.js"></script>
   </body>
 </html>
