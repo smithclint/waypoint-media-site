@@ -304,7 +304,7 @@ function openShootModal(shootId) {
 
     // Add click to enlarge functionality
     imageItem.addEventListener('click', () => {
-      enlargeImage(image.url, image.caption, currentShoot.images, index);
+      enlargeImage(image.url, image.caption, shootData.images, index);
     });
 
     imageGrid.appendChild(imageItem);
