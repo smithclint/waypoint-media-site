@@ -1,23 +1,4 @@
 {
-  "beachfront-condominium": {
-    "category": "golf-course",
-    "description": "Inside This Luxury Pool Home in Sugar Mill, New Smyrna Beach, FL",
-    "images": [
-      {
-        "caption": "Oceanfront building overview",
-        "url": "assets/real-estate/beachfront-condominium/oceanfront-building.jpg"
-      },
-      {
-        "caption": "Beach access and amenities",
-        "url": "assets/real-estate/beachfront-condominium/beach-access.jpg"
-      },
-      {
-        "caption": "Coastal views and location advantages",
-        "url": "assets/real-estate/beachfront-condominium/coastal-views.jpg"
-      }
-    ],
-    "title": "Beachfront Condominium - New Smyrna Beach, FL"
-  },
   "sugar-mill-pool-home": {
     "category": "luxury-homes",
     "description": "Stunning aerial views of a luxurious pool home featuring modern architecture and beautiful landscaping",
