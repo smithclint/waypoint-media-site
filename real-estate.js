@@ -1,10 +1,6 @@
 // Real Estate Portfolio JavaScript
 
-//           const images = releaseData.assets
-            .filter(asset => asset.name.match(/\.(jpg|jpeg|png|webp)$/i))
-            .map(asset => ({
-              url: asset.browser_download_url
-            }));hoto data from photos.json and GitHub releases
+// Load photo data from photos.json and GitHub releases
 let portfolioData = {};
 
 // Fetch photo data on page load
@@ -38,6 +34,7 @@ async function loadPhotosFromReleases(shootMetadata) {
     if (metadata.release_tag) {
       try {
         const releaseUrl = `https://api.github.com/repos/smithclint/waypoint-media-site/releases/tags/${metadata.release_tag}`;
+        console.log(`Fetching photos for ${shootId} from: ${releaseUrl}`);
         const releaseResponse = await fetch(releaseUrl);
 
         if (releaseResponse.ok) {
@@ -49,13 +46,13 @@ async function loadPhotosFromReleases(shootMetadata) {
             }));
 
           enrichedData[shootId].images = images;
-          console.log(`Loaded ${images.length} photos for ${shootId} from GitHub release`);
+          console.log(`✅ Loaded ${images.length} photos for ${shootId} from GitHub release`);
         } else {
-          console.warn(`Could not fetch release data for ${shootId}`);
+          console.warn(`❌ Could not fetch release data for ${shootId}: ${releaseResponse.status}`);
           enrichedData[shootId].images = metadata.images || [];
         }
       } catch (error) {
-        console.warn(`Error loading photos for ${shootId}:`, error);
+        console.warn(`❌ Error loading photos for ${shootId}:`, error);
         enrichedData[shootId].images = metadata.images || [];
       }
     } else {
@@ -164,7 +161,11 @@ function updatePortfolioGrid() {
   // Generate portfolio items from data
   Object.keys(portfolioData).forEach(shootId => {
     const shoot = portfolioData[shootId];
-    if (!shoot.images || shoot.images.length === 0) return;
+    // Skip if no images available (either from release loading failure or empty static data)
+    if (!shoot.images || shoot.images.length === 0) {
+      console.warn(`Skipping ${shootId}: no images available`);
+      return;
+    }
 
     // Use the first image as the preview
     const previewImage = shoot.images[0];
