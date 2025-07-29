@@ -1,0 +1,82 @@
+{
+  "beachfront-condominium": {
+    "category": "waterfront",
+    "description": "Luxury oceanfront condominium with direct beach access and panoramic views",
+    "images": [
+      {
+        "caption": "Oceanfront building overview",
+        "url": "assets/real-estate/beachfront-condominium/oceanfront-building.jpg"
+      },
+      {
+        "caption": "Beach access and amenities",
+        "url": "assets/real-estate/beachfront-condominium/beach-access.jpg"
+      },
+      {
+        "caption": "Coastal views and location advantages",
+        "url": "assets/real-estate/beachfront-condominium/coastal-views.jpg"
+      }
+    ],
+    "title": "Beachfront Condominium - New Smyrna Beach, FL"
+  },
+  "luxury-waterfront-estate": {
+    "category": "luxury-homes",
+    "description": "Stunning waterfront luxury home with private dock, pool, and expansive grounds",
+    "images": [
+      {
+        "caption": "Aerial overview of waterfront estate",
+        "url": "assets/real-estate/luxury-waterfront-estate/aerial-overview.jpg"
+      },
+      {
+        "caption": "Pool and outdoor entertainment area",
+        "url": "assets/real-estate/luxury-waterfront-estate/pool-entertainment.jpg"
+      },
+      {
+        "caption": "Private dock and water access",
+        "url": "assets/real-estate/luxury-waterfront-estate/private-dock.jpg"
+      },
+      {
+        "caption": "Landscaping and property boundaries",
+        "url": "assets/real-estate/luxury-waterfront-estate/landscaping.jpg"
+      }
+    ],
+    "title": "Luxury Waterfront Estate - Naples, FL"
+  },
+  "modern-office-complex": {
+    "category": "commercial",
+    "description": "Contemporary commercial office development with ample parking and modern amenities",
+    "images": [
+      {
+        "caption": "Office complex architectural overview",
+        "url": "assets/real-estate/modern-office-complex/building-overview.jpg"
+      },
+      {
+        "caption": "Parking facilities and accessibility",
+        "url": "assets/real-estate/modern-office-complex/parking-access.jpg"
+      },
+      {
+        "caption": "Site layout and traffic flow",
+        "url": "assets/real-estate/modern-office-complex/site-layout.jpg"
+      }
+    ],
+    "title": "Modern Office Complex - Orlando, FL"
+  },
+  "suburban-family-home": {
+    "category": "residential",
+    "description": "Charming suburban home with large backyard and excellent neighborhood location",
+    "images": [
+      {
+        "caption": "Front elevation and curb appeal",
+        "url": "assets/real-estate/suburban-family-home/front-elevation.jpg"
+      },
+      {
+        "caption": "Backyard and outdoor living space",
+        "url": "assets/real-estate/suburban-family-home/backyard-space.jpg"
+      },
+      {
+        "caption": "Neighborhood context and location",
+        "url": "assets/real-estate/suburban-family-home/neighborhood.jpg"
+      }
+    ],
+    "title": "Family Home - Winter Park, FL"
+  }
+}
