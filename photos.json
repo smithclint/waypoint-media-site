@@ -1,4 +1,12 @@
 {
+  "550-bb-real-estate": {
+    "category": "residential",
+    "description": "Professional real estate photography showcasing this beautiful property",
+    "featured_photo_index": 0,
+    "release_tag": "real-estate-550-bb-real-estate-v1.0",
+    "shoot_prefix": "550-bb-r-d7b8ac",
+    "title": "550 BB Real Estate"
+  },
   "sugar-mill-pool-home": {
     "category": "residential",
     "description": "Professional aerial photography of sugar mill pool home",
