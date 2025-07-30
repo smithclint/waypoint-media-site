@@ -3,6 +3,10 @@
 
 class VideoPreloader {
   constructor() {
+    // Logging configuration - set to false for production to prevent browser lockup
+    // To enable debugging: set this.debug = true; and/or this.verboseLogging = true;
+    this.debug = false; // Set to true only for debugging
+    this.verboseLogging = false; // Set to true for very detailed logs
     this.preloadQueue = [];
     this.preloadedVideos = new Map();
     this.isPreloading = false;
@@ -30,6 +34,24 @@ class VideoPreloader {
 
     // Restore state from previous session
     this.restoreState();
+  }
+
+  // Logging methods to prevent browser lockup from excessive console output
+  log(message, ...args) {
+    if (this.debug) {
+      console.log(message, ...args);
+    }
+  }
+
+  logVerbose(message, ...args) {
+    if (this.debug && this.verboseLogging) {
+      console.log(message, ...args);
+    }
+  }
+
+  logImportant(message, ...args) {
+    // Always log important messages (errors, critical info)
+    console.log(message, ...args);
   }
 
   init() {
@@ -64,14 +86,14 @@ class VideoPreloader {
   handlePageChange() {
     const newPage = this.detectCurrentPage();
     if (newPage !== this.currentPage) {
-      console.log(`📄 Page changed from ${this.currentPage} to ${newPage} - reprioritizing videos`);
+      this.log(`📄 Page changed from ${this.currentPage} to ${newPage} - reprioritizing videos`);
       this.currentPage = newPage;
       this.reprioritizeQueue();
     }
   }
 
   reprioritizeQueue() {
-    console.log('🔄 Reprioritizing video queue for current page...');
+    this.log('🔄 Reprioritizing video queue for current page...');
 
     this.preloadQueue.forEach(videoData => {
       videoData.priority = this.calculatePageBasedPriority(videoData);
@@ -81,7 +103,7 @@ class VideoPreloader {
     this.saveState();
 
     if (this.isPreloading) {
-      console.log('⚡ Restarting preloader with new priorities');
+      this.log('⚡ Restarting preloader with new priorities');
       this.startPreloading();
     }
   }
@@ -108,7 +130,7 @@ class VideoPreloader {
       };
 
       sessionStorage.setItem(this.stateKey, JSON.stringify(state));
-      console.log(`💾 Saved preloader state: ${state.queue.length} videos in queue`);
+      this.log(`💾 Saved preloader state: ${state.queue.length} videos in queue`);
     } catch (e) {
       console.warn('Failed to save preloader state:', e);
     }
@@ -118,7 +140,7 @@ class VideoPreloader {
     try {
       const savedState = sessionStorage.getItem(this.stateKey);
       if (!savedState) {
-        console.log('📭 No saved preloader state found - starting fresh');
+        this.log('📭 No saved preloader state found - starting fresh');
         return false;
       }
 
@@ -127,7 +149,7 @@ class VideoPreloader {
 
       // Only restore state if it's less than 5 minutes old
       if (age > 5 * 60 * 1000) {
-        console.log('⏰ Saved state too old - starting fresh');
+        this.log('⏰ Saved state too old - starting fresh');
         sessionStorage.removeItem(this.stateKey);
         return false;
       }
@@ -148,13 +170,11 @@ class VideoPreloader {
 
       // Update page if different
       if (state.currentPage !== this.currentPage) {
-        console.log(
-          `📄 Page changed from saved state (${state.currentPage} → ${this.currentPage})`
-        );
+        this.log(`📄 Page changed from saved state (${state.currentPage} → ${this.currentPage})`);
         this.reprioritizeQueue();
       }
 
-      console.log(
+      this.log(
         `📦 Restored preloader state: ${this.preloadQueue.length} videos, ${this.preloadedVideos.size} preloaded`
       );
       return true;
@@ -172,9 +192,9 @@ class VideoPreloader {
     );
 
     if (inProgressVideos.length > 0) {
-      console.log(`🔄 Resuming ${inProgressVideos.length} interrupted downloads`);
+      this.log(`🔄 Resuming ${inProgressVideos.length} interrupted downloads`);
       inProgressVideos.forEach(video => {
-        console.log(`⏩ Resuming download: ${video.id} (was ${video.preloadProgress}% complete)`);
+        this.log(`⏩ Resuming download: ${video.id} (was ${video.preloadProgress}% complete)`);
       });
     }
   }
@@ -192,8 +212,8 @@ class VideoPreloader {
     this.resumeActiveDownloads();
     this.startPreloading();
 
-    console.log('🎬 Video Preloader initialized with persistent state');
-    console.log(`📊 Found ${this.preloadQueue.length} videos to potentially preload`);
+    this.logImportant('🎬 Video Preloader initialized with persistent state');
+    this.log(`📊 Found ${this.preloadQueue.length} videos to potentially preload`);
   }
 
   checkBrowserCacheStatus() {
@@ -201,8 +221,8 @@ class VideoPreloader {
       window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
     if (isLocalDevelopment) {
-      console.log('🏠 Local development environment detected');
-      console.log(
+      this.log('🏠 Local development environment detected');
+      this.log(
         '💡 CORS Tip: If you see CORS errors with GitHub videos, try using the CORS-enabled server (cors_server.py)'
       );
     }
@@ -217,7 +237,7 @@ class VideoPreloader {
         }
       }
 
-      console.log(
+      this.log(
         '💡 Cache Tip: If videos keep re-downloading, ensure "Disable cache" is unchecked in DevTools Network tab'
       );
     }, 1000);
@@ -246,7 +266,7 @@ class VideoPreloader {
       localStorage.setItem(cacheKey, JSON.stringify(cache));
 
       if (cleaned > 0) {
-        console.log(`🧹 Cleaned up ${cleaned} expired video cache entries`);
+        this.log(`🧹 Cleaned up ${cleaned} expired video cache entries`);
       }
     } catch (e) {
       console.warn('Could not cleanup cache:', e);
@@ -254,12 +274,12 @@ class VideoPreloader {
   }
 
   preloadAllGlobalVideos() {
-    console.log(
+    this.log(
       `🌍 Preloading ALL videos from all pages (universal preloading) - Current page: ${this.currentPage}`
     );
 
     const allVideoUrls = window.getAllVideoUrls();
-    console.log(`📥 Adding ${allVideoUrls.length} global videos to preload queue`);
+    this.log(`📥 Adding ${allVideoUrls.length} global videos to preload queue`);
 
     let newVideos = 0;
     let cachedVideos = 0;
@@ -271,7 +291,7 @@ class VideoPreloader {
         const oldPriority = existingVideo.priority;
         existingVideo.priority = this.calculatePageBasedPriority(existingVideo);
         if (oldPriority !== existingVideo.priority) {
-          console.log(
+          this.log(
             `🔄 Updated priority for restored video: ${existingVideo.id} (${oldPriority} → ${existingVideo.priority})`
           );
         }
@@ -280,7 +300,7 @@ class VideoPreloader {
       }
 
       if (this.isVideoCached(url)) {
-        console.log(`💾 Video already cached, skipping: global-video-${index}`);
+        this.logVerbose(`💾 Video already cached, skipping: global-video-${index}`);
         cachedVideos++;
         return;
       }
@@ -302,10 +322,10 @@ class VideoPreloader {
 
     this.preloadQueue.sort((a, b) => b.priority - a.priority);
 
-    console.log(
+    this.log(
       `📊 Added ${newVideos} new videos, ${cachedVideos} already cached, ${restoredVideos} restored from state`
     );
-    console.log(
+    this.log(
       `📋 Queue priorities: ${this.preloadQueue
         .slice(0, 5)
         .map(v => `${v.id}(${v.priority})`)
@@ -349,9 +369,16 @@ class VideoPreloader {
         return;
       }
 
+      const src = this.getVideoSource(video);
+
+      // Skip if this video is already in the queue
+      if (src && this.preloadQueue.some(v => v.src === src)) {
+        return;
+      }
+
       const videoData = {
         element: video,
-        src: this.getVideoSource(video),
+        src: src,
         priority: this.calculatePriority(video, index),
         preloaded: false,
         preloadProgress: 0,
@@ -425,7 +452,7 @@ class VideoPreloader {
     const videoData = this.preloadQueue.find(v => v.element === video);
     if (videoData && !videoData.preloaded) {
       videoData.priority += 20;
-      console.log(`🎯 Prioritizing video: ${videoData.id}`);
+      this.log(`🎯 Prioritizing video: ${videoData.id}`);
       this.preloadQueue.sort((a, b) => b.priority - a.priority);
     }
   }
@@ -434,7 +461,7 @@ class VideoPreloader {
     if (this.isPreloading) return;
     this.isPreloading = true;
 
-    console.log(
+    this.log(
       `🚀 Starting background video preloading with up to ${this.maxConcurrentPreloads} concurrent downloads...`
     );
 
@@ -453,7 +480,7 @@ class VideoPreloader {
 
     // Check if this video is already being preloaded
     if (this.activeDownloads.has(videoData.src)) {
-      console.log(`⚠️ Video already being preloaded, skipping: ${videoData.id}`);
+      this.log(`⚠️ Video already being preloaded, skipping: ${videoData.id}`);
       return;
     }
 
@@ -462,7 +489,7 @@ class VideoPreloader {
     this.currentPreloads++;
 
     const logPrefix = videoData.isGlobal ? '🌍' : '📥';
-    console.log(
+    this.log(
       `${logPrefix} Preloading video: ${videoData.id} (Priority: ${videoData.priority}) [${this.currentPreloads}/${this.maxConcurrentPreloads} active]`
     );
 
@@ -482,7 +509,7 @@ class VideoPreloader {
 
       if (isGitHubVideo && !isLocalDevelopment) {
         preloadVideo.setAttribute('crossorigin', 'anonymous');
-        console.log(`🔒 Added crossorigin for GitHub video: ${videoData.id}`);
+        this.log(`🔒 Added crossorigin for GitHub video: ${videoData.id}`);
       }
 
       preloadVideo.setAttribute('data-preloaded', 'true');
@@ -507,7 +534,7 @@ class VideoPreloader {
       // Completion handler with state saving
       preloadVideo.addEventListener('canplaythrough', () => {
         const successPrefix = videoData.isGlobal ? '🌍✅' : '✅';
-        console.log(
+        this.log(
           `${successPrefix} Video preloaded: ${videoData.id} [${this.currentPreloads - 1}/${this.maxConcurrentPreloads} remaining active]`
         );
         videoData.preloaded = true;
@@ -541,7 +568,7 @@ class VideoPreloader {
         console.warn(`${errorPrefix} Failed to preload video: ${videoData.id}`, e);
 
         if (videoData.src.includes('github.com')) {
-          console.log(`🔄 Attempting link preload for GitHub video: ${videoData.id}`);
+          this.log(`🔄 Attempting link preload for GitHub video: ${videoData.id}`);
           this.tryLinkPreload(videoData);
         }
 
@@ -594,7 +621,7 @@ class VideoPreloader {
       document.head.appendChild(linkPreload);
 
       setTimeout(() => {
-        console.log(`🔗 Link preload completed for: ${videoData.id}`);
+        this.log(`🔗 Link preload completed for: ${videoData.id}`);
         videoData.preloaded = true;
         videoData.preloadProgress = 100;
 
@@ -616,14 +643,14 @@ class VideoPreloader {
     if (videoData && !videoData.preloaded) {
       const oldPriority = videoData.priority;
       videoData.priority = 999;
-      console.log(
+      this.log(
         `🚀 PRIORITY BOOST: ${videoData.id} priority: ${oldPriority} → ${videoData.priority} (user started playing)`
       );
 
       this.saveState();
 
       if (this.isPreloading) {
-        console.log('🔄 Restarting preloader to prioritize playing video...');
+        this.log('🔄 Restarting preloader to prioritize playing video...');
         this.continuePreloading();
       }
     }
@@ -647,13 +674,13 @@ class VideoPreloader {
     try {
       // First check if it's in our preloaded videos map
       if (this.preloadedVideos.has(videoSrc)) {
-        console.log(`💾 Video found in preloaded map: ${videoSrc}`);
+        this.logVerbose(`💾 Video found in preloaded map: ${videoSrc}`);
         return true;
       }
 
       // Check if currently being downloaded
       if (this.activeDownloads.has(videoSrc)) {
-        console.log(`⬇️ Video currently being downloaded: ${videoSrc}`);
+        this.logVerbose(`⬇️ Video currently being downloaded: ${videoSrc}`);
         return true;
       }
 
@@ -668,7 +695,7 @@ class VideoPreloader {
           `video[data-preloaded="true"][src="${videoSrc}"]`
         );
         if (cachedElement) {
-          console.log(`💾 Video found in DOM cache: ${videoSrc}`);
+          this.logVerbose(`💾 Video found in DOM cache: ${videoSrc}`);
           return true;
         }
       }
@@ -708,7 +735,7 @@ class VideoPreloader {
 
       this.preloadQueue.sort((a, b) => b.priority - a.priority);
 
-      console.log(`➕ Added new video to preload queue: ${videoData.id}`);
+      this.log(`➕ Added new video to preload queue: ${videoData.id}`);
       this.startPreloading();
     }
   }
@@ -733,11 +760,11 @@ class VideoPreloader {
         // Boost priority and mark as modal
         existingVideo.priority = 999;
         existingVideo.isModal = true;
-        console.log(`🎯 Boosted modal video priority: ${existingVideo.id}`);
+        this.log(`🎯 Boosted modal video priority: ${existingVideo.id}`);
       } else {
         // Add new modal video with high priority
         this.preloadQueue.push(videoData);
-        console.log(
+        this.log(
           `📱 Added modal video to preload queue: ${videoData.id} (Priority: ${videoData.priority})`
         );
       }
