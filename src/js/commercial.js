@@ -2,58 +2,7 @@
 // Handles loading and displaying commercial video projects
 
 // Commercial projects data structure
-let commercialProjects = [
-  {
-    id: 'commercial-boxdrop-furniture-store',
-    title: 'BoxDrop Furniture Store',
-    description: 'Professional marketing videos showcasing furniture displays and store atmosphere',
-    type: 'retail',
-    category: 'retail',
-    date: '2025-07-29T18:42:06Z',
-    videoUrl:
-      'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4',
-    videoCount: 2,
-    allVideos: [
-      {
-        name: 'Selects.30.fps.Trimmed_HD_H264.mp4',
-        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4',
-        title: 'Store Overview - Trimmed for a Facebook Ad',
-        description: 'Short promotional video for social media',
-      },
-      {
-        name: 'Selects.30.fps_HD_H264.mp4',
-        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps_HD_H264.mp4',
-        title: 'Store Overview for Business Website',
-        description: 'Full version of the store overview video',
-      },
-    ],
-  },
-  {
-    id: 'commercial-hideaway-campground',
-    title: 'The Hideaway Campground',
-    description: 'Cinematic showcase of luxury RV resort amenities and natural beauty',
-    type: 'hospitality',
-    category: 'hospitality',
-    date: '2025-07-29T19:08:59Z',
-    videoUrl:
-      'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-commercial.mp4',
-    videoCount: 2,
-    allVideos: [
-      {
-        name: 'hideaway-commercial.mp4',
-        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-commercial.mp4',
-        title: 'Hideaway Campground - Commercial Version',
-        description: 'Full-length promotional video showcasing all amenities',
-      },
-      {
-        name: 'hideaway-social.mp4',
-        url: 'https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-social.mp4',
-        title: 'Hideaway Campground - Social Media Cut',
-        description: 'Short version optimized for social media platforms',
-      },
-    ],
-  },
-];
+let commercialProjects = [];
 let commercialConfig = {};
 
 // GitHub API configuration
@@ -61,12 +10,13 @@ const GITHUB_USERNAME = 'smithclint';
 const GITHUB_REPO = 'waypoint-media-site';
 
 // Initialize portfolio
-document.addEventListener('DOMContentLoaded', function () {
-  // Use static data instead of loading from API
-  console.log('Loading commercial projects from static data...');
-  updateProjectCount();
-  initializeViewControls();
+document.addEventListener('DOMContentLoaded', async function () {
+  // Initialize modal functionality first
   initializeModal();
+
+  // Load commercial config first, then load projects
+  await loadCommercialConfig();
+  await loadCommercialProjects();
 
   // Hide empty state and show projects
   const container = document.getElementById('portfolio-grid');
@@ -77,12 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function loadCommercialConfig() {
   try {
-    const response = await fetch('commercial.json');
+    const response = await fetch('../config/commercial.json');
     if (response.ok) {
       commercialConfig = await response.json();
       console.log('Commercial config loaded:', commercialConfig);
     } else {
-      console.log('No commercial.json found, using default naming');
+      console.log('No config/commercial.json found, using default naming');
       commercialConfig = {};
     }
   } catch (error) {

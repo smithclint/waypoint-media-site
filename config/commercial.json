@@ -20,12 +20,12 @@
     "title": "The Hideaway Campground",
     "videos": {
       "hideaway-commercial.mp4": {
-        "description": "Full cinematic tour of campground facilities",
-        "title": "Resort Showcase"
+        "description": "Full-length promotional video showcasing all amenities",
+        "title": "Hideaway Campground - Commercial Version"
       },
       "hideaway-social.mp4": {
-        "description": "Vertical format for social media promotion",
-        "title": "Social Teaser"
+        "description": "Short version optimized for social media platforms",
+        "title": "Hideaway Campground - Social Media Cut"
       }
     }
   }

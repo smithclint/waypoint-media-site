@@ -56,18 +56,18 @@ function sortImagesByPriority(images) {
 } // Fetch photo data on page load
 async function loadPhotoData() {
   try {
-    const response = await fetch('photos.json');
+    const response = await fetch('../config/photos.json');
     if (response.ok) {
       const shootMetadata = await response.json();
       portfolioData = await loadPhotosFromReleases(shootMetadata);
       updatePortfolioGrid();
     } else {
-      console.warn('Could not load photos.json, using fallback data');
+      console.warn('Could not load config/photos.json, using fallback data');
       portfolioData = getFallbackData();
       updatePortfolioGrid();
     }
   } catch (error) {
-    console.warn('Error loading photos.json:', error);
+    console.warn('Error loading config/photos.json:', error);
     portfolioData = getFallbackData();
     updatePortfolioGrid();
   }

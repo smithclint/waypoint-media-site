@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', function () {
   let reviewsLoader;
 
   if (path.includes('real-estate.html') || path.includes('real-estate')) {
-    reviewsLoader = new ReviewsLoader('reviews/real-estate.json');
+    reviewsLoader = new ReviewsLoader('../reviews/real-estate.json');
   } else if (path.includes('commercial.html') || path.includes('commercial')) {
-    reviewsLoader = new ReviewsLoader('reviews/commercial.json');
+    reviewsLoader = new ReviewsLoader('../reviews/commercial.json');
   }
 
   if (reviewsLoader) {
