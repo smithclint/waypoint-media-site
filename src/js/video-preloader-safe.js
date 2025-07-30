@@ -18,11 +18,12 @@
 
 class VideoPreloaderSafe {
   constructor() {
-    // DEBUGGING CONTROLS - All logging disabled
+    // DEBUGGING CONTROLS - Preloader disabled for testing
     this.debug = false; // Disabled verbose debugging
     this.verboseLogging = false; // Disabled detailed logs
     this.performanceLogging = false; // Disabled performance metrics
     this.progressLogging = false; // Disabled progress logging
+    this.preloaderDisabled = true; // Disable all preloading functionality
 
     this.preloadQueue = [];
     this.preloadedVideos = new Map();
@@ -30,11 +31,12 @@ class VideoPreloaderSafe {
     this.allVideoUrls = new Set(); // Master set to prevent any duplicates
 
     this.isPreloading = false;
-    this.maxConcurrentPreloads = 8;
+    this.maxConcurrentPreloads = 0; // Disabled - no concurrent downloads
     this.currentPreloads = 0;
     this.initialized = false;
     this.currentPage = this.detectCurrentPage();
     this.stateKey = 'waypoint_preloader_state';
+    this.aggressiveMode = false; // Disable aggressive downloading
 
     // Performance tracking
     this.stats = {
@@ -83,19 +85,37 @@ class VideoPreloaderSafe {
         const active = this.currentPreloads;
         const percent = total > 0 ? Math.round((preloaded / total) * 100) : 0;
 
-        if (active > 0) {
-          console.log(
-            `[VideoPreloader] Progress: ${preloaded}/${total} (${percent}%) | Active: ${active}/${this.maxConcurrentPreloads} | Errors: ${this.stats.errors}`
-          );
-        } else if (preloaded < total) {
-          console.log(
-            `[VideoPreloader] Waiting... ${total - preloaded} videos remaining | Downloaded: ${preloaded}/${total}`
-          );
+        if (this.aggressiveMode) {
+          // More detailed progress for aggressive downloading
+          if (active > 0) {
+            console.log(
+              `🚀 [VideoPreloader] Aggressive Download: ${preloaded}/${total} (${percent}%) | Active: ${active}/${this.maxConcurrentPreloads} | Errors: ${this.stats.errors}`
+            );
+          } else if (preloaded < total) {
+            console.log(
+              `⏳ [VideoPreloader] Queue: ${total - preloaded} videos remaining | Downloaded: ${preloaded}/${total}`
+            );
+          } else {
+            console.log(
+              `✅ [VideoPreloader] Complete: All ${preloaded} videos cached! | Errors: ${this.stats.errors}`
+            );
+            this.stopProgressLogging();
+          }
         } else {
-          console.log(
-            `[VideoPreloader] Complete: ${preloaded}/${total} videos downloaded | Errors: ${this.stats.errors}`
-          );
-          this.stopProgressLogging();
+          if (active > 0) {
+            console.log(
+              `[VideoPreloader] Progress: ${preloaded}/${total} (${percent}%) | Active: ${active}/${this.maxConcurrentPreloads} | Errors: ${this.stats.errors}`
+            );
+          } else if (preloaded < total) {
+            console.log(
+              `[VideoPreloader] Waiting... ${total - preloaded} videos remaining | Downloaded: ${preloaded}/${total}`
+            );
+          } else {
+            console.log(
+              `[VideoPreloader] Complete: ${preloaded}/${total} videos downloaded | Errors: ${this.stats.errors}`
+            );
+            this.stopProgressLogging();
+          }
         }
       }
     }, 2000);
@@ -128,14 +148,22 @@ class VideoPreloaderSafe {
   }
 
   setupPreloader() {
-    this.log('🎬 Initializing Video Preloader (Safe Mode)');
+    if (this.preloaderDisabled) {
+      console.log('🚫 Video Preloader is DISABLED - videos will load naturally via browser cache');
+      return; // Exit early - no preloading
+    }
+
+    this.log('🎬 Initializing Video Preloader (Aggressive Mode)');
     this.discoverVideos();
     if (window.getAllVideoUrls) {
       this.preloadGlobalVideos();
     }
     this.setupVideoEventListeners();
-    this.startPreloading();
-    this.log(`📊 Setup complete: ${this.preloadQueue.length} videos in queue`);
+
+    // Immediately start aggressive downloading of all videos
+    this.startAggressivePreloading();
+
+    this.log(`📊 Setup complete: ${this.preloadQueue.length} videos queued for immediate download`);
   }
 
   setupVideoEventListeners() {
@@ -227,6 +255,11 @@ class VideoPreloaderSafe {
   }
 
   calculatePriority(video, index) {
+    if (this.aggressiveMode) {
+      // In aggressive mode, all videos get high priority
+      return 100;
+    }
+
     let priority = 1;
     if (video && !video.paused && !video.ended) priority += 10;
     if (this.isVideoVisible(video)) priority += 3;
@@ -235,6 +268,11 @@ class VideoPreloaderSafe {
   }
 
   calculatePageBasedPriority(videoData) {
+    if (this.aggressiveMode) {
+      // In aggressive mode, all videos get high priority
+      return 100;
+    }
+
     const config = window.globalVideoConfig;
     if (!config) return 1;
     const src = videoData.src;
@@ -287,6 +325,39 @@ class VideoPreloaderSafe {
     }
   }
 
+  // Aggressive preloading - download ALL videos immediately
+  startAggressivePreloading() {
+    this.log('🚀 Starting aggressive video preloading - downloading all videos');
+
+    // Set all videos to high priority for immediate download
+    this.preloadQueue.forEach(videoData => {
+      if (!videoData.preloaded) {
+        videoData.priority = 100; // High priority for all
+      }
+    });
+
+    // Start downloading up to max concurrent limit
+    this.startPreloading();
+
+    // Continue downloading remaining videos as slots become available
+    this.continueAggressivePreloading();
+  }
+
+  // Continue aggressive downloading until all videos are preloaded
+  continueAggressivePreloading() {
+    const unpreloadedVideos = this.preloadQueue.filter(
+      v => !v.preloaded && !this.activeDownloads.has(v.src)
+    );
+
+    if (unpreloadedVideos.length > 0 && this.currentPreloads < this.maxConcurrentPreloads) {
+      // Start more downloads immediately
+      setTimeout(() => {
+        this.startPreloading();
+        this.continueAggressivePreloading();
+      }, 50); // Very short delay to keep downloads flowing
+    }
+  }
+
   async preloadVideo(videoData) {
     this.currentPreloads++;
     const startTime = Date.now();
@@ -321,7 +392,15 @@ class VideoPreloaderSafe {
 
   continuePreloading() {
     if (this.currentPreloads < this.maxConcurrentPreloads) {
-      setTimeout(() => this.startPreloading(), 100);
+      if (this.aggressiveMode) {
+        // In aggressive mode, immediately continue downloading
+        setTimeout(() => {
+          this.startPreloading();
+          this.continueAggressivePreloading();
+        }, 50);
+      } else {
+        setTimeout(() => this.startPreloading(), 100);
+      }
     }
   }
 
