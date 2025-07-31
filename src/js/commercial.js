@@ -43,36 +43,33 @@ async function loadCommercialConfig() {
 
 async function loadCommercialProjects() {
   try {
-    console.log('Loading commercial projects...');
-
-    // Fetch GitHub releases
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/releases`
-    );
-    const releases = await response.json();
-
-    // Filter for commercial releases (those that start with "commercial-")
-    const commercialReleases = releases.filter(release =>
-      release.tag_name.startsWith('commercial-')
-    );
-
-    console.log(`Found ${commercialReleases.length} commercial releases`);
-
-    // Process each commercial release
-    commercialProjects = [];
-    for (const release of commercialReleases) {
-      const project = await processCommercialRelease(release);
-      if (project) {
-        commercialProjects.push(project);
-      }
-    }
-
-    // Sort projects by date (newest first)
-    commercialProjects.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    console.log(`Processed ${commercialProjects.length} commercial projects`);
-
-    // Update UI
+    console.log('Loading commercial projects from config/commercial.json...');
+    const response = await fetch('../config/commercial.json');
+    if (!response.ok) throw new Error('Failed to load commercial.json');
+    const data = await response.json();
+    // Transform data to expected structure
+    commercialProjects = Object.entries(data).map(([id, project]) => {
+      const videoEntries = project.videos ? Object.entries(project.videos) : [];
+      const allVideos = videoEntries.map(([filename, meta]) => ({
+        name: filename,
+        url: `https://d1fp8ti9bzsng5.cloudfront.net/${id}/${filename}`,
+        title: meta.title || filename,
+        description: meta.description || '',
+      }));
+      return {
+        id,
+        title: project.title || id,
+        description: project.description || '',
+        type: project.category || 'general',
+        category: project.category || 'general',
+        date: project.date || '',
+        videoUrl: allVideos[0] ? allVideos[0].url : '',
+        videoCount: allVideos.length,
+        allVideos,
+      };
+    });
+    // Sort projects by title (or date if available)
+    commercialProjects.sort((a, b) => a.title.localeCompare(b.title));
     updateProjectCount();
     renderProjects();
   } catch (error) {
@@ -81,65 +78,7 @@ async function loadCommercialProjects() {
   }
 }
 
-async function processCommercialRelease(release) {
-  try {
-    // Extract project info from release
-    const tagName = release.tag_name;
-    const config = commercialConfig[tagName] || {};
-
-    // Use config title if available, otherwise format from tag name
-    const title =
-      config.title || release.name || tagName.replace('commercial-', '').replace(/-/g, ' ');
-    const description = config.description || release.body || `Commercial video project: ${title}`;
-
-    // Get video files from release assets
-    const videoAssets = release.assets.filter(asset =>
-      asset.name.match(/\.(mp4|mov|avi|mkv|webm)$/i)
-    );
-
-    if (videoAssets.length === 0) {
-      console.log(`No video files found in release: ${tagName}`);
-      return null;
-    }
-
-    // Use the first video as the main video
-    const mainVideo = videoAssets[0];
-    const videoUrl = mainVideo.browser_download_url;
-
-    // Extract project type from tag name (everything after "commercial-")
-    const projectType = tagName.replace('commercial-', '').split('-')[0];
-
-    // Process all videos with custom naming if available
-    const allVideos = videoAssets.map(asset => {
-      const videoConfig = config.videos && config.videos[asset.name];
-      return {
-        name: asset.name,
-        url: asset.browser_download_url,
-        size: asset.size,
-        title: videoConfig
-          ? videoConfig.title
-          : asset.name.replace(/\.[^/.]+$/, '').replace(/-/g, ' '),
-        description: videoConfig ? videoConfig.description : '',
-      };
-    });
-
-    return {
-      id: tagName,
-      title: title,
-      description: description,
-      type: projectType,
-      category: config.category || 'general',
-      date: release.published_at,
-      videoUrl: videoUrl,
-      videoCount: videoAssets.length,
-      allVideos: allVideos,
-      releaseUrl: release.html_url,
-    };
-  } catch (error) {
-    console.error('Error processing release:', release.tag_name, error);
-    return null;
-  }
-}
+// processCommercialRelease is no longer needed
 
 function updateProjectCount() {
   const countElement = document.getElementById('project-count');
@@ -354,27 +293,17 @@ function openVideoModal(projectId) {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
-    // Refresh video manager to pick up any new videos in the modal
-    if (window.videoManager) {
-      // Small delay to ensure DOM is updated
-      setTimeout(() => {
-        window.videoManager.refresh();
-
-        // Also handle video preloading for modal videos
-        if (window.videoPreloader) {
-          const modalVideo = document.getElementById('modal-video');
-          if (modalVideo) {
-            window.videoPreloader.handleModalVideo(modalVideo);
-          }
-
-          // Handle gallery videos in modal
-          const galleryVideos = document.querySelectorAll('#video-gallery video');
-          galleryVideos.forEach(video => {
-            window.videoPreloader.addVideo(video);
+    // Pause all other videos when a new one is played in the modal
+    setTimeout(() => {
+      const modalVideos = document.querySelectorAll('#videoModal video');
+      modalVideos.forEach(video => {
+        video.addEventListener('play', function () {
+          modalVideos.forEach(v => {
+            if (v !== video) v.pause();
           });
-        }
-      }, 100);
-    }
+        });
+      });
+    }, 100);
   }
 }
 
@@ -388,25 +317,17 @@ function closeVideoModal() {
     document.body.style.overflow = ''; // Restore scrolling
   }
 
-  // Use video manager to pause all videos if available
-  if (window.videoManager) {
-    window.videoManager.pauseAllVideos();
-  } else {
-    // Fallback to manual pausing
-    // Pause single video
-    if (modalVideo) {
-      modalVideo.pause();
-      modalVideo.currentTime = 0;
-    }
-
-    // Pause all gallery videos
-    if (videoGallery) {
-      const galleryVideos = videoGallery.querySelectorAll('video');
-      galleryVideos.forEach(video => {
-        video.pause();
-        video.currentTime = 0;
-      });
-    }
+  // Pause all videos in the modal when closing
+  if (modalVideo) {
+    modalVideo.pause();
+    modalVideo.currentTime = 0;
+  }
+  if (videoGallery) {
+    const galleryVideos = videoGallery.querySelectorAll('video');
+    galleryVideos.forEach(video => {
+      video.pause();
+      video.currentTime = 0;
+    });
   }
 }
 

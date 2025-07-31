@@ -137,7 +137,7 @@
                   onclick="openVideoModal('commercial-boxdrop-furniture-store')"
                 >
                   <source
-                    src="https://github.com/smithclint/waypoint-media-site/releases/download/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4"
+                    src="https://d1fp8ti9bzsng5.cloudfront.net/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4"
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
@@ -176,7 +176,7 @@
                   onclick="openVideoModal('commercial-hideaway-campground')"
                 >
                   <source
-                    src="https://github.com/smithclint/waypoint-media-site/releases/download/commercial-hideaway-campground/hideaway-commercial.mp4"
+                    src="https://d1fp8ti9bzsng5.cloudfront.net/commercial-hideaway-campground/hideaway-commercial.mp4"
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
@@ -382,9 +382,16 @@
       </div>
     </footer>
 
-    <script src="../src/js/global-video-config.js"></script>
-    <script src="../src/js/video-manager.js"></script>
-    <script src="../src/js/video-preloader-safe.js"></script>
+    <script>
+      // Ensures only one video plays at a time on the page
+      document.querySelectorAll('video').forEach(function (vid) {
+        vid.addEventListener('play', function () {
+          document.querySelectorAll('video').forEach(function (other) {
+            if (other !== vid) other.pause();
+          });
+        });
+      });
+    </script>
     <script src="../src/js/commercial.js"></script>
     <script src="../src/js/reviews.js"></script>
   </body>

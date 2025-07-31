@@ -1,6 +1,6 @@
 // Real Estate Portfolio JavaScript
 
-// Load photo data from photos.json and GitHub releases
+// Load photo data from photos.json (S3/CloudFront only)
 let portfolioData = {};
 
 // Function to sort images by priority based on filename keywords
@@ -59,7 +59,7 @@ async function loadPhotoData() {
     const response = await fetch('../config/photos.json');
     if (response.ok) {
       const shootMetadata = await response.json();
-      portfolioData = await loadPhotosFromReleases(shootMetadata);
+      portfolioData = await buildPortfolioData(shootMetadata);
       updatePortfolioGrid();
     } else {
       console.warn('Could not load config/photos.json, using fallback data');
@@ -73,47 +73,26 @@ async function loadPhotoData() {
   }
 }
 
-// Load photos from GitHub releases based on shoot metadata
-async function loadPhotosFromReleases(shootMetadata) {
+// Build portfolio data from photos.json (S3/CloudFront only)
+async function buildPortfolioData(shootMetadata) {
   const enrichedData = {};
+  const CDN_BASE = 'https://d1fp8ti9bzsng5.cloudfront.net';
 
   for (const [shootId, metadata] of Object.entries(shootMetadata)) {
     enrichedData[shootId] = { ...metadata };
-
-    // If this shoot has a release_tag, fetch photos from GitHub
-    if (metadata.release_tag) {
-      try {
-        const releaseUrl = `https://api.github.com/repos/smithclint/waypoint-media-site/releases/tags/${metadata.release_tag}`;
-        console.log(`Fetching photos for ${shootId} from: ${releaseUrl}`);
-        const releaseResponse = await fetch(releaseUrl);
-
-        if (releaseResponse.ok) {
-          const releaseData = await releaseResponse.json();
-          const images = releaseData.assets
-            .filter(asset => asset.name.match(/\.(jpg|jpeg|png|webp)$/i))
-            .map(asset => ({
-              url: asset.browser_download_url,
-            }));
-
-          // Sort images by priority (exteriors first, closets/utility last)
-          enrichedData[shootId].images = sortImagesByPriority(images);
-          console.log(`✅ Loaded ${images.length} photos for ${shootId} from GitHub release`);
-        } else {
-          console.warn(`❌ Could not fetch release data for ${shootId}: ${releaseResponse.status}`);
-          // For local testing, provide some fallback images if GitHub is not accessible
-          enrichedData[shootId].images = createLocalFallbackImages(shootId);
-        }
-      } catch (error) {
-        console.warn(`❌ Error loading photos for ${shootId}:`, error);
-        // For local testing, provide some fallback images if GitHub is not accessible
-        enrichedData[shootId].images = createLocalFallbackImages(shootId);
-      }
+    const folder = shootId;
+    if (Array.isArray(metadata.images)) {
+      const images = metadata.images
+        .filter(name => name.match(/\.(jpg|jpeg|png|webp)$/i))
+        .map(name => ({
+          url: `${CDN_BASE}/${folder}/${name}`,
+        }));
+      enrichedData[shootId].images = sortImagesByPriority(images);
+      // Optionally: console.log(`✅ Loaded ${images.length} photos for ${shootId} from CloudFront folder '${folder}'`);
     } else {
-      // Use existing images array if no release_tag
-      enrichedData[shootId].images = metadata.images || [];
+      enrichedData[shootId].images = [];
     }
   }
-
   return enrichedData;
 }
 
