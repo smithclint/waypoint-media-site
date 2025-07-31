@@ -110,7 +110,7 @@ publish:
 	if [ "$(TYPE)" = "real-estate" ]; then \
 		SHOOT_NAME=$$(echo "$(TITLE)" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$$//g'); \
 		echo "🏠 Using real estate workflow with shoot name: $$SHOOT_NAME"; \
-		CMD="python3 release_photos.py --shoot $$SHOOT_NAME --photos $(FILES)"; \
+		CMD="python3 release_photos.py --shoot $$SHOOT_NAME --photos '$(FILES)'"; \
 		if [ "$(NOAI)" != "true" ] && [ "$$PHOTO_COUNT" -gt 0 ]; then \
 			CMD="$$CMD --ai-classify"; \
 			echo "🤖 Using AI classification for photos..."; \

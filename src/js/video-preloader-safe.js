@@ -18,12 +18,12 @@
 
 class VideoPreloaderSafe {
   constructor() {
-    // DEBUGGING CONTROLS - Preloader disabled for testing
-    this.debug = false; // Disabled verbose debugging
-    this.verboseLogging = false; // Disabled detailed logs
-    this.performanceLogging = false; // Disabled performance metrics
-    this.progressLogging = false; // Disabled progress logging
-    this.preloaderDisabled = true; // Disable all preloading functionality
+    // DEBUGGING CONTROLS - Preloader enabled with debugging
+    this.debug = true; // Enable debugging to see what's happening
+    this.verboseLogging = false; // Keep detailed logs disabled
+    this.performanceLogging = false; // Keep performance metrics disabled
+    this.progressLogging = true; // Enable progress logging to see preloading
+    this.preloaderDisabled = false; // Enable preloading functionality
 
     this.preloadQueue = [];
     this.preloadedVideos = new Map();
@@ -31,12 +31,13 @@ class VideoPreloaderSafe {
     this.allVideoUrls = new Set(); // Master set to prevent any duplicates
 
     this.isPreloading = false;
-    this.maxConcurrentPreloads = 0; // Disabled - no concurrent downloads
+    this.maxConcurrentPreloads = 12; // Re-enabled - 12 concurrent downloads
     this.currentPreloads = 0;
     this.initialized = false;
     this.currentPage = this.detectCurrentPage();
+    this.currentlyPlayingVideo = null; // Track currently playing video
     this.stateKey = 'waypoint_preloader_state';
-    this.aggressiveMode = false; // Disable aggressive downloading
+    this.aggressiveMode = true; // Re-enable aggressive downloading
 
     // Performance tracking
     this.stats = {
@@ -59,6 +60,9 @@ class VideoPreloaderSafe {
     if (this.progressLogging) {
       this.startProgressLogging();
     }
+
+    // Setup video event listeners for reprioritization
+    this.setupVideoEventListeners();
   }
 
   // Controlled logging methods - safe for production
@@ -147,13 +151,129 @@ class VideoPreloaderSafe {
     return 'index';
   }
 
+  setupVideoEventListeners() {
+    // Listen for video play events to track currently playing video
+    document.addEventListener(
+      'play',
+      event => {
+        if (event.target.tagName === 'VIDEO') {
+          this.currentlyPlayingVideo = event.target;
+          const src = this.getVideoSource(event.target);
+          this.log(
+            `🎬 [Reprioritize] Video started playing: ${src ? src.split('/').pop() : '[unknown src]'}`
+          );
+          this.reprioritizeQueue();
+        }
+      },
+      true
+    );
+
+    // Listen for video pause/ended events
+    document.addEventListener(
+      'pause',
+      event => {
+        if (event.target.tagName === 'VIDEO' && event.target === this.currentlyPlayingVideo) {
+          this.currentlyPlayingVideo = null;
+          this.log(`⏸️ Video paused: ${this.getVideoSource(event.target).split('/').pop()}`);
+          this.reprioritizeQueue();
+        }
+      },
+      true
+    );
+
+    document.addEventListener(
+      'ended',
+      event => {
+        if (event.target.tagName === 'VIDEO' && event.target === this.currentlyPlayingVideo) {
+          this.currentlyPlayingVideo = null;
+          this.log(`⏹️ Video ended: ${this.getVideoSource(event.target).split('/').pop()}`);
+          this.reprioritizeQueue();
+        }
+      },
+      true
+    );
+
+    // Also listen for new videos being added to the DOM
+    const observer = new MutationObserver(mutations => {
+      let hasNewVideos = false;
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            if (node.tagName === 'VIDEO' || node.querySelector('video')) {
+              hasNewVideos = true;
+            }
+          }
+        });
+      });
+      if (hasNewVideos) {
+        setTimeout(() => this.discoverVideos(), 100);
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  getVideoPage(videoSrc) {
+    if (!window.globalVideoConfig) return 'unknown';
+
+    const config = window.globalVideoConfig;
+
+    // Check which page array contains this video
+    if (config.indexVideos && config.indexVideos.includes(videoSrc)) return 'index';
+    if (config.commercialVideos && config.commercialVideos.includes(videoSrc)) return 'commercial';
+    if (config.galleryVideos && config.galleryVideos.includes(videoSrc)) return 'gallery';
+    if (config.droneVideos && config.droneVideos.includes(videoSrc)) return 'drone';
+
+    return 'unknown';
+  }
+
+  reprioritizeQueue() {
+    if (this.preloadQueue.length === 0) return;
+
+    this.log('🔄 Reprioritizing video queue...');
+
+    // Recalculate priorities for all videos
+    this.preloadQueue.forEach((videoData, index) => {
+      videoData.priority = this.calculateAdvancedPriority(videoData, index);
+    });
+
+    // Sort by new priorities
+    this.preloadQueue.sort((a, b) => b.priority - a.priority);
+
+    // Debug: Show new priorities with details
+    if (this.debug) {
+      this.log('📊 New queue priorities:');
+      this.preloadQueue.forEach((item, i) => {
+        const fileName = item.src ? item.src.split('/').pop() : '[no src]';
+        const page = this.getVideoPage(item.src);
+        const hasElement = !!item.element;
+        let playing = false;
+        let playingSrc = null;
+        if (this.currentlyPlayingVideo) {
+          playingSrc = this.getVideoSource(this.currentlyPlayingVideo);
+        }
+        if (
+          (item.element && item.element === this.currentlyPlayingVideo) ||
+          (playingSrc && item.src && item.src === playingSrc)
+        ) {
+          playing = true;
+        }
+        this.log(
+          `  ${i + 1}. ${fileName} - Priority: ${item.priority} (Page: ${page}) Element: ${hasElement ? 'yes' : 'no'} Playing: ${playing}`
+        );
+      });
+    }
+
+    // Restart preloading with new priorities
+    this.startPreloading();
+  }
+
   setupPreloader() {
     if (this.preloaderDisabled) {
       console.log('🚫 Video Preloader is DISABLED - videos will load naturally via browser cache');
       return; // Exit early - no preloading
     }
 
-    this.log('🎬 Initializing Video Preloader (Aggressive Mode)');
+    console.log('🎬 Initializing Video Preloader (Aggressive Mode) - ENABLED');
     this.discoverVideos();
     if (window.getAllVideoUrls) {
       this.preloadGlobalVideos();
@@ -208,16 +328,42 @@ class VideoPreloaderSafe {
         const wasAdded = this.addVideoToQueue({
           element: video,
           src: src,
-          priority: this.calculatePriority(video, index),
+          priority: this.calculateAdvancedPriority({ element: video, src: src }, index),
           preloaded: false,
           id: `video-${index}-${Date.now()}`,
         });
         if (wasAdded) newVideosAdded++;
       });
-      if (newVideosAdded > 0) this.log(`[VideoPreloader] Discovered ${newVideosAdded} new videos.`);
+      if (newVideosAdded > 0) {
+        this.log(`[VideoPreloader] Discovered ${newVideosAdded} new videos.`);
+        // Reprioritize after discovering new videos
+        this.reprioritizeQueue();
+      }
     } catch (error) {
       this.logError('Video discovery failed', error);
     }
+  }
+
+  throttle(func, delay) {
+    let timeoutId;
+    let lastExecTime = 0;
+    return function (...args) {
+      const currentTime = Date.now();
+
+      if (currentTime - lastExecTime > delay) {
+        func.apply(this, args);
+        lastExecTime = currentTime;
+      } else {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(
+          () => {
+            func.apply(this, args);
+            lastExecTime = Date.now();
+          },
+          delay - (currentTime - lastExecTime)
+        );
+      }
+    };
   }
 
   preloadGlobalVideos() {
@@ -227,14 +373,17 @@ class VideoPreloaderSafe {
       urls.forEach((url, index) => {
         const wasAdded = this.addVideoToQueue({
           src: url,
-          priority: this.calculatePageBasedPriority({ src: url }),
+          priority: this.calculateAdvancedPriority({ src: url }, index),
           preloaded: false,
           id: `global-${index}`,
         });
         if (wasAdded) newGlobalVideos++;
       });
-      if (newGlobalVideos > 0)
+      if (newGlobalVideos > 0) {
         this.log(`[VideoPreloader] Added ${newGlobalVideos} new global videos.`);
+        // Reprioritize after adding global videos
+        this.reprioritizeQueue();
+      }
     } catch (error) {
       this.logError('Failed to add global videos', error);
     }
@@ -255,33 +404,72 @@ class VideoPreloaderSafe {
   }
 
   calculatePriority(video, index) {
-    if (this.aggressiveMode) {
-      // In aggressive mode, all videos get high priority
-      return 100;
-    }
-
-    let priority = 1;
-    if (video && !video.paused && !video.ended) priority += 10;
-    if (this.isVideoVisible(video)) priority += 3;
-    if (index < 3) priority += 2;
-    return priority;
+    // Use the new advanced priority system
+    return this.calculateAdvancedPriority(
+      { element: video, src: this.getVideoSource(video) },
+      index
+    );
   }
 
-  calculatePageBasedPriority(videoData) {
-    if (this.aggressiveMode) {
-      // In aggressive mode, all videos get high priority
-      return 100;
+  calculateAdvancedPriority(videoData, index) {
+    const videoSrc = videoData.src;
+    const videoElement = videoData.element;
+    const videoPage = this.getVideoPage(videoSrc);
+    let priority = 1; // Base priority
+
+    // HIGHEST PRIORITY: Currently playing video (by element or src)
+    let playingSrc = null;
+    if (this.currentlyPlayingVideo) {
+      playingSrc = this.getVideoSource(this.currentlyPlayingVideo);
+    }
+    const isPlaying =
+      (videoElement && videoElement === this.currentlyPlayingVideo) ||
+      (playingSrc && videoSrc && videoSrc === playingSrc);
+    if (isPlaying) {
+      priority = 1000; // Maximum priority for playing video
+      this.log(
+        `🎯 PLAYING VIDEO: ${videoSrc ? videoSrc.split('/').pop() : '[unknown src]'} - Priority: ${priority}`
+      );
+      return priority;
     }
 
-    const config = window.globalVideoConfig;
-    if (!config) return 1;
-    const src = videoData.src;
-    let priority = 1;
-    if (this.currentPage === 'index' && config.indexVideos?.includes(src)) priority = 5;
-    if (this.currentPage === 'commercial' && config.commercialVideos?.includes(src)) priority = 5;
-    if (this.currentPage === 'gallery' && config.galleryVideos?.includes(src)) priority = 5;
-    if (this.currentPage === 'drone' && config.droneVideos?.includes(src)) priority = 5;
-    return priority;
+    // HIGH PRIORITY: Videos on current page
+    if (videoPage === this.currentPage) {
+      if (this.aggressiveMode) {
+        priority = 800; // High priority for current page in aggressive mode
+      } else {
+        priority = 50; // Medium-high priority in normal mode
+      }
+
+      // Bonus for visible videos on current page
+      if (videoElement && this.isVideoVisible(videoElement)) {
+        priority += 50;
+      }
+
+      // Bonus for first few videos on current page
+      if (index < 3) {
+        priority += 20;
+      }
+    } else {
+      // LOWER PRIORITY: Videos on other pages
+      if (this.aggressiveMode) {
+        priority = 200; // Still decent priority in aggressive mode
+      } else {
+        priority = 10; // Low priority in normal mode
+      }
+
+      // Small bonus for visible videos even on other pages
+      if (videoElement && this.isVideoVisible(videoElement)) {
+        priority += 10;
+      }
+    }
+
+    return Math.min(priority, 999); // Cap below playing video priority
+  }
+
+  calculatePageBasedPriority(videoConfig, pageType = null) {
+    // Use the new advanced priority system for global videos too
+    return this.calculateAdvancedPriority(videoConfig, 50); // Index 50 for global videos
   }
 
   isVideoVisible(video) {
@@ -310,6 +498,15 @@ class VideoPreloaderSafe {
 
     this.preloadQueue.sort((a, b) => b.priority - a.priority);
 
+    // Debug: Show queue priorities
+    if (this.debug) {
+      this.log('📊 Queue priorities after sort:');
+      this.preloadQueue.slice(0, 5).forEach((item, i) => {
+        const fileName = item.src.split('/').pop();
+        this.log(`  ${i + 1}. ${fileName} - Priority: ${item.priority}`);
+      });
+    }
+
     const availableSlots = this.maxConcurrentPreloads - this.currentPreloads;
     let started = 0;
 
@@ -318,7 +515,7 @@ class VideoPreloaderSafe {
       if (!videoData.preloaded && !this.activeDownloads.has(videoData.src)) {
         this.activeDownloads.set(videoData.src, Date.now());
         const fileName = videoData.src.split('/').pop();
-        this.log(`[VideoPreloader] Starting: ${fileName}`);
+        this.log(`[VideoPreloader] Starting: ${fileName} (Priority: ${videoData.priority})`);
         this.preloadVideo(videoData);
         started++;
       }
@@ -476,13 +673,13 @@ class VideoPreloaderSafe {
       const wasAdded = this.addVideoToQueue({
         element: video,
         src: src,
-        priority: this.calculatePriority(video, 99), // High priority for manually added
+        priority: this.calculateAdvancedPriority({ element: video, src: src }, 0), // Use new priority system
         preloaded: false,
         id: `manual-${Date.now()}`,
       });
       if (wasAdded) {
         this.log(`[VideoPreloader] Manually added via videoManager: ${src.split('/').pop()}`);
-        this.startPreloading();
+        this.reprioritizeQueue(); // Reprioritize after adding
       }
     } catch (error) {
       this.logError('Failed to add video from videoManager', error);
