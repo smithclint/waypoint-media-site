@@ -1,16 +1,361 @@
+---
+---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redirecting...</title>
+    <title>Waypoint Media - Professional Aerial Cinematography & Content Creation</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+
+    <link rel="stylesheet" href="src/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google tag (gtag.js) -->
     <script>
-      // Redirect to pages directory (GitHub Pages will handle clean URLs)
-      window.location.href = 'pages/';
+      if (location.protocol !== 'file:') {
+        (function () {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-CWGYQPXF8Z';
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-CWGYQPXF8Z');
+        })();
+      }
     </script>
   </head>
+
   <body>
-    <p>Redirecting to main page...</p>
-    <p>If you are not redirected, <a href="pages/">click here</a>.</p>
+    <!-- Introductory Offer Banner -->
+    <div class="intro-offer-banner">
+      <div class="banner-content">
+        <h3>🚁 New Business - Introductory Offer!</h3>
+        <p>
+          <strong>Building my portfolio</strong> - Special rates while gaining experience.
+          <span class="guarantee">100% satisfaction guaranteed!</span>
+          <strong
+            ><span class="nowrap-cta"><a href="contact" class="inline-cta">Get Your Quote</a></span></strong
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Hero Banner Header -->
+    <header class="waypoint-hero">
+      <div class="banner-container">
+        <img src="assets/waypoint/banner.png" alt="Waypoint Media Banner" class="hero-banner" />
+      </div>
+    </header>
+
+    <!-- Hero Text Section -->
+    <section class="hero-text-section">
+      <div class="hero-text-container">
+        <h1>Aerial Cinematography & Content Creation</h1>
+        <p>Creating beautiful drone footage to tell your story from above</p>
+      </div>
+    </section>
+
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="real-estate" class="nav-link">
+          <i class="fas fa-building" style="margin-right: 8px"></i>Real Estate
+        </a>
+        <a href="commercial" class="nav-link"> <i class="fas fa-briefcase" style="margin-right: 8px"></i>Commercial </a>
+        <a href="contact" class="nav-link"> <i class="fas fa-envelope" style="margin-right: 8px"></i>Contact </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Hero Video Section -->
+      <section id="hero" class="panel hero-video">
+        <div class="hero-video-container">
+          <div class="video-wrapper">
+            <iframe
+              src="https://www.youtube.com/embed/VSyyjhXfLts?autoplay=1&mute=1&rel=0&modestbranding=1&loop=1&playlist=VSyyjhXfLts&vq=hd720&quality=hd720"
+              title="Professional Drone Cinematography - Hero Showcase"
+              allowfullscreen
+              allow="autoplay; encrypted-media"
+            >
+            </iframe>
+          </div>
+          <div class="hero-text">
+            <h2>Experience Stunning Aerial Perspectives</h2>
+            <p>Professional drone cinematography that tells your story from above</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Work Section -->
+      <section id="gallery" class="panel gallery-section">
+        <h2 class="section-title">Featured Work</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <video controls preload="metadata">
+              <source src="https://d1fp8ti9bzsng5.cloudfront.net/drone-videos/bluffton.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <h3>Bluffton Scenic Views</h3>
+            <p>Capturing the natural beauty of Bluffton's landscapes</p>
+          </div>
+          <div class="gallery-item">
+            <video controls preload="metadata">
+              <source src="https://d1fp8ti9bzsng5.cloudfront.net/drone-videos/heart-field.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <h3>Heart Field</h3>
+            <p>Romantic aerial cinematography for special occasions</p>
+          </div>
+          <div class="gallery-item">
+            <video controls preload="metadata">
+              <source src="https://d1fp8ti9bzsng5.cloudfront.net/drone-videos/hideaway.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <h3>Hideaway Resort</h3>
+            <p>Showcasing resort amenities and natural surroundings</p>
+          </div>
+          <div class="gallery-item">
+            <video controls preload="metadata">
+              <source
+                src="https://d1fp8ti9bzsng5.cloudfront.net/drone-videos/kentucky-cinematic-views.mp4"
+                type="video/mp4"
+              />
+              Your browser does not support the video tag.
+            </video>
+            <h3>Kentucky Cinematic Views</h3>
+            <p>Dramatic aerial footage of Kentucky's scenic landscapes</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="flex-row">
+        <div class="panel" style="flex: 2">
+          <h2 class="section-title">Drone Services I Offer</h2>
+          <p class="professional-summary-paragraph">
+            FAA Part 107 Certified Remote Pilot with a passion for aerial content creation and cinematography. I'm
+            building my portfolio and would love to work with you to create stunning aerial footage for your business,
+            event, or special project. New to the business means competitive rates and extra attention to your needs!
+          </p>
+
+          <div class="services-grid">
+            <div class="service-item">
+              <h3><i class="fas fa-video"></i> Aerial Cinematography</h3>
+              <p>
+                Beautiful drone footage for marketing videos, documentaries, and promotional content. I focus on great
+                composition, lighting, and smooth movements to create compelling visual stories from unique aerial
+                perspectives.
+              </p>
+              <ul>
+                <li>4K video recording with color grading</li>
+                <li>Smooth, cinematic camera movements and transitions</li>
+                <li>Creative shot compositions and storytelling techniques</li>
+                <li>Post-production editing and color correction</li>
+              </ul>
+            </div>
+
+            <div class="service-item">
+              <h3><i class="fas fa-campground"></i> RV Parks & Campground Marketing</h3>
+              <p>
+                Aerial marketing content for RV parks, campgrounds, and outdoor hospitality venues. I'll showcase your
+                amenities, layouts, and natural surroundings to help attract guests and boost bookings.
+              </p>
+              <ul>
+                <li>Comprehensive property showcase videos</li>
+                <li>Amenity highlighting and facility tours</li>
+                <li>Seasonal and event documentation</li>
+                <li>Social media content packages</li>
+              </ul>
+            </div>
+
+            <div class="service-item">
+              <h3><i class="fas fa-mountain"></i> Destination & Tourism Content</h3>
+              <p>
+                Capturing the beauty and unique features of tourist destinations, outdoor recreation areas, and scenic
+                locations to support tourism marketing and promotion efforts.
+              </p>
+              <ul>
+                <li>Landscape and scenic beauty documentation</li>
+                <li>Tourism board promotional content</li>
+                <li>Event and festival aerial coverage</li>
+                <li>Adventure and outdoor activity filming</li>
+              </ul>
+            </div>
+
+            <div class="service-item">
+              <h3><i class="fas fa-building"></i> Commercial & Real Estate</h3>
+              <p>
+                Aerial photography and videography for commercial properties, real estate listings, and construction
+                documentation. Providing unique perspectives that ground-based photography cannot capture.
+              </p>
+              <ul>
+                <li>Property overview and boundary documentation</li>
+                <li>Construction progress monitoring</li>
+                <li>Commercial facility showcases</li>
+                <li>Insurance and inspection support</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel sidebar" style="flex: 1">
+          <div class="credentials-section">
+            <h2 class="section-title">Certifications & Equipment</h2>
+            <div class="credentials">
+              <h3>Certifications</h3>
+              <ul>
+                <li><i class="fas fa-certificate"></i> FAA Part 107 Remote Pilot Certificate</li>
+                <li><i class="fas fa-shield-alt"></i> TRUST Recreational UAS Safety Test</li>
+                <!-- <li><i class="fas fa-umbrella"></i> Drone Insurance Coverage</li> -->
+              </ul>
+
+              <h3>Equipment</h3>
+              <ul>
+                <li><i class="fas fa-camera"></i> Professional 4K capable drones</li>
+                <li><i class="fas fa-balance-scale"></i> Gimbal-stabilized cameras</li>
+                <li><i class="fas fa-battery-full"></i> Multiple battery systems</li>
+                <!-- <li><i class="fas fa-satellite"></i> Precision GPS positioning</li> -->
+                <li><i class="fas fa-eye"></i> Obstacle avoidance systems</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="service-area">
+            <h2 class="section-title">Service Areas</h2>
+            <p><strong>Primary:</strong> Florida</p>
+            <p><strong>Extended:</strong> Southeast United States</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Work Showcase -->
+      <section class="panel recent-work-section">
+        <h2 class="section-title">Recent Work</h2>
+        <div class="work-grid">
+          <div class="work-item">
+            <div class="video-container">
+              <video controls preload="auto">
+                <source
+                  src="https://d1fp8ti9bzsng5.cloudfront.net/commercial-boxdrop-furniture-store/Selects.30.fps.Trimmed_HD_H264.mp4"
+                  type="video/mp4"
+                />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <h3>Furniture Store Showcase</h3>
+            <p>Commercial drone footage highlighting store layout and inventory</p>
+          </div>
+
+          <div class="work-item">
+            <div class="video-container">
+              <video controls preload="auto">
+                <source
+                  src="https://d1fp8ti9bzsng5.cloudfront.net/commercial-boxdrop-furniture-store/Selects.30.fps_HD_H264.mp4"
+                  type="video/mp4"
+                />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <h3>Furniture Store Marketing</h3>
+            <p>Promotional video showcasing business atmosphere and products</p>
+          </div>
+
+          <div class="work-item cta-work">
+            <div class="cta-content">
+              <h3>Your Project Next?</h3>
+              <p>Got a project idea? I'm here to help!</p>
+
+              <a href="real-estate#portfolio" class="work-cta-btn">View Real Estate Portfolio</a>
+              <a href="contact" class="work-cta-btn secondary">Get In Touch</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="panel cta-section">
+        <h2 class="section-title">Let's Work Together!</h2>
+        <div class="cta-content">
+          <p>
+            I'd love to discuss how aerial cinematography can showcase your business, event, or destination in amazing
+            new ways. As I'm building my portfolio, you'll get competitive rates and dedicated attention to your
+            project.
+            <strong>100% satisfaction guaranteed!</strong>
+          </p>
+          <div class="cta-buttons">
+            <a href="contact" class="cta-button primary"> <i class="fas fa-quote-left"></i> Get Your Quote </a>
+            <a href="https://www.linkedin.com/in/clintsmithmaui" target="_blank" class="cta-button secondary">
+              <i class="fab fa-linkedin"></i> Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="waypoint-footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="assets/waypoint/logo.png" alt="Waypoint Media" />
+        </div>
+        <div class="footer-info">
+          <p>&copy; 2025 Waypoint Media Productions. All rights reserved.</p>
+          <p>FAA Part 107 Certified • Fully Insured • Quality Drone Operations</p>
+        </div>
+        <div class="footer-social">
+          <a href="https://instagram.com/waypointmediapro" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://youtube.com/@WaypointMedia" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/in/clintsmithmaui" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- HoneyBook Script -->
+    <script>
+      (function (h, b, s, n, i, p, e, t) {
+        h._HB_ = h._HB_ || {};
+        h._HB_.pid = i;
+        t = b.createElement(s);
+        t.type = 'text/javascript';
+        t.async = !0;
+        t.src = n;
+        e = b.getElementsByTagName(s)[0];
+        e.parentNode.insertBefore(t, e);
+      })(
+        window,
+        document,
+        'script',
+        'https://widget.honeybook.com/assets_users_production/websiteplacements/placement-controller.min.js',
+        '68812f5f4c40a0000729a684' // pragma: allowlist secret
+      );
+    </script>
+
+    <script>
+      // Ensures only one video plays at a time on the page
+      document.querySelectorAll('video').forEach(function (vid) {
+        vid.addEventListener('play', function () {
+          document.querySelectorAll('video').forEach(function (other) {
+            if (other !== vid) other.pause();
+          });
+        });
+      });
+    </script>
+    <script src="src/js/contact-form.js"></script>
   </body>
 </html>
