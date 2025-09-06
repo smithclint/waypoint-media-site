@@ -36,7 +36,7 @@ class CORSHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if os.path.exists("." + path) and not os.path.isdir("." + path):
             return super().do_GET()
 
-        # Clean URL redirect: /real-estate -> /pages/real-estate
+        # Clean URL handling: serve /real-estate as pages/real-estate.html
         if (
             not path.startswith("/pages/")
             and not path.startswith("/src/")
@@ -45,10 +45,11 @@ class CORSHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         ):
             clean_path = path.strip("/")
             if clean_path and os.path.exists(f"./pages/{clean_path}.html"):
-                self.send_response(301)
-                self.send_header("Location", f"/pages/{clean_path}")
-                self.end_headers()
-                return
+                # Serve the file directly without redirect
+                self.path = f"/pages/{clean_path}.html" + (
+                    parsed_path.query and "?" + parsed_path.query or ""
+                )
+                return super().do_GET()
 
         # For paths in pages/ directory, try adding .html
         if path.startswith("/pages/") and not path.endswith(".html"):
