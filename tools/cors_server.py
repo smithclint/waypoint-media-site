@@ -25,12 +25,10 @@ class CORSHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         parsed_path = urlparse(self.path)
         path = parsed_path.path
 
-        # Root redirect to pages/
+        # Root serves pages/index.html directly
         if path == "/":
-            self.send_response(301)
-            self.send_header("Location", "/pages/")
-            self.end_headers()
-            return
+            self.path = "/pages/index.html"
+            return super().do_GET()
 
         # Check if path exists as-is first (normal file handling)
         if os.path.exists("." + path) and not os.path.isdir("." + path):
