@@ -1,6 +1,7 @@
 {
   "commercial-boxdrop-furniture-store": {
     "category": "retail",
+    "date": "2024-06-15",
     "description": "Professional marketing videos showcasing furniture displays and store atmosphere",
     "title": "BoxDrop Furniture Store",
     "videos": {
@@ -16,6 +17,7 @@
   },
   "commercial-hideaway-campground": {
     "category": "hospitality",
+    "date": "2024-07-20",
     "description": "Cinematic showcase of luxury RV resort amenities and natural beauty",
     "title": "The Hideaway Campground",
     "videos": {
@@ -31,6 +33,7 @@
   },
   "commercial-sweet-citrus-acres": {
     "category": "hospitality",
+    "date": "2024-09-10",
     "description": "Professional marketing content for luxury RV resort showcasing amenities, accommodations, and natural Florida setting",
     "title": "Sweet Citrus Acres RV Resort",
     "videos": {
