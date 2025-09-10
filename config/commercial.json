@@ -28,5 +28,24 @@
         "title": "Hideaway Campground - Social Media Cut"
       }
     }
+  },
+  "commercial-sweet-citrus-acres": {
+    "category": "hospitality",
+    "description": "Professional marketing content for luxury RV resort showcasing amenities, accommodations, and natural Florida setting",
+    "title": "Sweet Citrus Acres RV Resort",
+    "videos": {
+      "Short Reel 1.mp4": {
+        "description": "Dynamic 30-second promotional reel optimized for social media",
+        "title": "Sweet Citrus Acres - Social Reel 1"
+      },
+      "Short Reel 2_Precise_Quality.mp4": {
+        "description": "High-quality 40-second promotional reel highlighting key features",
+        "title": "Sweet Citrus Acres - Social Reel 2"
+      },
+      "Sweet Citrus Acres.mp4": {
+        "description": "Full 4K cinematic showcase of the resort's amenities and atmosphere",
+        "title": "Sweet Citrus Acres - Full Commercial"
+      }
+    }
   }
 }
