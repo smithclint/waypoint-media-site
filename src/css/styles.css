@@ -3316,6 +3316,14 @@ a:hover {
   border-radius: 8px;
 }
 
+.featured-video::-webkit-media-controls-panel {
+  justify-content: flex-start;
+}
+
+.featured-video::-webkit-media-controls {
+  width: 100%;
+}
+
 .featured-video-info {
   padding: 1rem;
 }
