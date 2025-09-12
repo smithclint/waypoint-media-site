@@ -269,7 +269,7 @@ function openVideoModal(projectId) {
           (video, index) => `
             <div class="video-gallery-item">
               <div class="gallery-video-container">
-                <video controls preload="metadata" onloadedmetadata="handleVideoAspectRatio(this)">
+                <video controls preload="metadata" controlslist="nodownload" onloadedmetadata="handleVideoAspectRatio(this)">
                   <source src="${video.url}" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
