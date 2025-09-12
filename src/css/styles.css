@@ -3428,9 +3428,19 @@ a:hover {
 
 /* Hide download button on videos using CSS */
 video::-webkit-media-controls-download-button {
-  display: none;
+  display: none !important;
 }
 
 video::-webkit-media-controls-enclosure {
   overflow: hidden;
+}
+
+/* Additional fallback for all browsers */
+video[controlslist*='nodownload']::-webkit-media-controls-download-button {
+  display: none !important;
+}
+
+/* Firefox specific */
+video::-moz-media-controls-download-button {
+  display: none !important;
 }
