@@ -3314,14 +3314,7 @@ a:hover {
   height: auto;
   display: block;
   border-radius: 8px;
-}
-
-.featured-video::-webkit-media-controls-panel {
-  justify-content: flex-start;
-}
-
-.featured-video::-webkit-media-controls {
-  width: 100%;
+  object-fit: cover;
 }
 
 .featured-video-info {
