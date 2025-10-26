@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate Portfolio - Waypoint Media</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
+
+    <link rel="stylesheet" href="./src/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google tag (gtag.js) -->
+    <script>
+      if (location.protocol !== 'file:') {
+        (function () {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-CWGYQPXF8Z';
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-CWGYQPXF8Z');
+        })();
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- Introductory Offer Banner -->
+    <div class="intro-offer-banner">
+      <div class="banner-content">
+        <h3>📸 Real Estate Photography Special!</h3>
+        <p>
+          <strong>Building my portfolio</strong> - Professional photography at introductory rates.
+          <span class="guarantee">Quick turnaround guaranteed!</span>
+          <strong
+            ><span class="nowrap-cta"><a href="contact" class="inline-cta">Get Your Quote</a></span></strong
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Hero Banner Header -->
+    <header class="waypoint-hero real-estate-hero">
+      <div class="banner-container">
+        <img src="./assets/waypoint/banner.png" alt="Waypoint Media Banner" class="hero-banner" />
+      </div>
+    </header>
+
+    <!-- Hero Text Section -->
+    <section class="hero-text-section">
+      <div class="hero-text-container">
+        <h1>Real Estate Aerial Photography</h1>
+        <p>Showcasing properties from stunning aerial perspectives</p>
+      </div>
+    </section>
+
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="./" class="nav-link"> <i class="fas fa-home" style="margin-right: 8px"></i>Home </a>
+        <a href="#portfolio" class="nav-link active">
+          <i class="fas fa-camera" style="margin-right: 8px"></i>Real Estate
+        </a>
+        <a href="commercial" class="nav-link"> <i class="fas fa-briefcase" style="margin-right: 8px"></i>Commercial </a>
+        <a href="contact" class="nav-link"> <i class="fas fa-envelope" style="margin-right: 8px"></i>Contact </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Introduction Section -->
+      <section class="panel real-estate-intro">
+        <h2 class="section-title">Professional Real Estate Photography</h2>
+        <div class="intro-content">
+          <div class="intro-text">
+            <p>
+              Enhance your property listings with professional photography that showcases the full beauty and features
+              of residential and commercial properties. I specialize in traditional real estate photography with
+              optional aerial shots to provide comprehensive coverage when needed.
+            </p>
+            <div class="intro-features">
+              <div class="feature-item">
+                <i class="fas fa-camera"></i>
+                <h3>Professional Photography</h3>
+                <p>High-quality interior and exterior shots with professional lighting and composition</p>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-drone"></i>
+                <h3>Optional Aerial Views</h3>
+                <p>FAA Part 107 certified aerial photography available as an add-on when beneficial</p>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-clock"></i>
+                <h3>Quick Turnaround</h3>
+                <p>Professional editing and delivery within 24-48 hours of shoot</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Video Section -->
+      <section class="panel featured-video-section">
+        <h2 class="section-title">Featured Property Video</h2>
+        <div class="featured-video-container">
+          <div class="featured-video-item">
+            <div class="video-wrapper">
+              <video controls preload="metadata" class="featured-video" controlslist="nodownload" playsinline>
+                <source src="https://d1fp8ti9bzsng5.cloudfront.net/videos/Final 550BB Polished.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="featured-video-info">
+              <h3>Golf Course Home Highlight Video</h3>
+              <p>
+                Cinematic showcase of luxury golf course property featuring pool, premium amenities, and stunning course
+                views. This highlight reel captures the essence of upscale living in a premier golf community.
+              </p>
+              <div class="video-details">
+                <span class="video-tag">Luxury Residential</span>
+                <span class="video-tag">Golf Course</span>
+                <span class="video-tag">Cinematic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portfolio Filter Section -->
+      <section id="portfolio" class="panel portfolio-section">
+        <h2 class="section-title">Photo Portfolio</h2>
+        <div class="portfolio-filters">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="luxury-homes">Luxury Homes</button>
+          <button class="filter-btn" data-filter="commercial">Commercial</button>
+          <button class="filter-btn" data-filter="residential">Residential</button>
+          <button class="filter-btn" data-filter="waterfront">Waterfront</button>
+          <button class="filter-btn" data-filter="recreational-vehicles">RV & Recreation</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="portfolio-grid" id="portfolioGrid">
+          <!-- Luxury Homes Category -->
+          <div class="portfolio-item" data-category="luxury-homes" data-shoot="luxury-estate-florida">
+            <div class="portfolio-image">
+              <img
+                src="https://via.placeholder.com/400x300/2c3e50/ffffff?text=Luxury+Estate+1"
+                alt="Luxury Estate"
+                loading="lazy"
+              />
+              <div class="portfolio-overlay">
+                <h3>Luxury Estate</h3>
+                <p>Waterfront luxury home with dock</p>
+                <button class="view-shoot-btn" data-shoot="luxury-estate-florida">View Full Shoot</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-item" data-category="luxury-homes" data-shoot="luxury-estate-florida">
+            <div class="portfolio-image">
+              <img
+                src="https://via.placeholder.com/400x300/34495e/ffffff?text=Luxury+Estate+2"
+                alt="Luxury Estate"
+                loading="lazy"
+              />
+              <div class="portfolio-overlay">
+                <h3>Luxury Estate</h3>
+                <p>Aerial view of pool and landscaping</p>
+                <button class="view-shoot-btn" data-shoot="luxury-estate-florida">View Full Shoot</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Commercial Category -->
+          <div class="portfolio-item" data-category="commercial" data-shoot="office-complex-atlanta">
+            <div class="portfolio-image">
+              <img
+                src="https://via.placeholder.com/400x300/3498db/ffffff?text=Office+Complex"
+                alt="Office Complex"
+                loading="lazy"
+              />
+              <div class="portfolio-overlay">
+                <h3>Office Complex</h3>
+                <p>Modern commercial development</p>
+                <button class="view-shoot-btn" data-shoot="office-complex-atlanta">View Full Shoot</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Residential Category -->
+          <div class="portfolio-item" data-category="residential" data-shoot="suburban-home-orlando">
+            <div class="portfolio-image">
+              <img
+                src="https://via.placeholder.com/400x300/e74c3c/ffffff?text=Suburban+Home"
+                alt="Suburban Home"
+                loading="lazy"
+              />
+              <div class="portfolio-overlay">
+                <h3>Suburban Home</h3>
+                <p>Family home with large backyard</p>
+                <button class="view-shoot-btn" data-shoot="suburban-home-orlando">View Full Shoot</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Waterfront Category -->
+          <div class="portfolio-item" data-category="waterfront" data-shoot="beachfront-condo-miami">
+            <div class="portfolio-image">
+              <img
+                src="https://via.placeholder.com/400x300/1abc9c/ffffff?text=Beachfront+Condo"
+                alt="Beachfront Condo"
+                loading="lazy"
+              />
+              <div class="portfolio-overlay">
+                <h3>Beachfront Condo</h3>
+                <p>Oceanfront luxury condominium</p>
+                <button class="view-shoot-btn" data-shoot="beachfront-condo-miami">View Full Shoot</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more portfolio items as needed -->
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="panel real-estate-services">
+        <h2 class="section-title">Real Estate Photography Services</h2>
+        <div class="services-grid">
+          <div class="service-item">
+            <h3><i class="fas fa-home"></i> Interior & Exterior Photography</h3>
+            <p>
+              Professional real estate photography capturing the best features of residential and commercial properties
+              with expert lighting and composition.
+            </p>
+            <ul>
+              <li>High-quality interior room photography</li>
+              <li>Exterior facade and curb appeal shots</li>
+              <li>Property detail and feature highlights</li>
+              <li>Professional editing and color correction</li>
+            </ul>
+          </div>
+
+          <div class="service-item">
+            <h3><i class="fas fa-drone"></i> Aerial Photography Add-On</h3>
+            <p>
+              Optional aerial photography to complement your standard listing photos when properties benefit from
+              overhead perspectives of large lots, unique features, or location context.
+            </p>
+            <ul>
+              <li>Property overview and boundary documentation</li>
+              <li>Large lot and acreage showcase</li>
+              <li>Neighborhood and location context</li>
+              <li>Pool, deck, and outdoor amenity shots</li>
+            </ul>
+          </div>
+
+          <div class="service-item">
+            <h3><i class="fas fa-clock"></i> Quick Standard Packages</h3>
+            <p>
+              Fast, affordable photography packages focused on getting quality listing photos delivered quickly to help
+              you move properties faster.
+            </p>
+            <ul>
+              <li>Standard listing photo packages</li>
+              <li>24-48 hour delivery turnaround</li>
+              <li>Professional editing included</li>
+              <li>MLS-ready high-resolution images</li>
+            </ul>
+          </div>
+
+          <div class="service-item">
+            <h3><i class="fas fa-star"></i> Premium Packages</h3>
+            <p>
+              Enhanced photography services with additional features like twilight shots, virtual staging guidance, and
+              optional aerial coverage for high-end listings.
+            </p>
+            <ul>
+              <li>Extended interior and exterior coverage</li>
+              <li>Golden hour and twilight photography</li>
+              <li>Optional aerial photography add-on</li>
+              <li>Virtual staging consultation</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="panel cta-section">
+        <h2 class="section-title">Ready to Enhance Your Listings?</h2>
+        <div class="cta-content">
+          <p>
+            Professional real estate photography can dramatically improve your property listings and attract more
+            qualified buyers. I focus on quick turnaround and quality results to help you move properties faster. Aerial
+            photography available as an add-on when it adds value to the listing.
+          </p>
+          <div class="cta-buttons">
+            <a href="mailto:clint@waypointmediapro.com" class="cta-button primary">
+              <i class="fas fa-envelope"></i> Get A Quote
+            </a>
+            <a href="tel:+13862435398" class="cta-button secondary"> <i class="fas fa-phone"></i> Call Now </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews Section -->
+      <section class="reviews-section" id="reviews-section" style="display: none">
+        <div class="reviews-container">
+          <h2>What Real Estate Professionals Say</h2>
+          <div class="reviews-grid" id="reviews-grid">
+            <!-- Reviews will be loaded dynamically from reviews/real-estate.json -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Shoot Modal -->
+    <div id="shootModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Full Shoot Gallery</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="modalGallery" class="modal-gallery">
+            <!-- Images will be loaded here dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="waypoint-footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="./assets/waypoint/logo.png" alt="Waypoint Media" />
+        </div>
+        <div class="footer-info">
+          <p>&copy; 2025 Waypoint Media Productions. All rights reserved.</p>
+          <p>FAA Part 107 Certified • Fully Insured • Professional Drone Operations</p>
+        </div>
+        <div class="footer-social">
+          <a href="https://instagram.com/waypointmediapro" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://youtube.com/@WaypointMedia" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/in/clintsmithmaui" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript for Portfolio Filtering and Modal -->
+    <script src="./src/js/real-estate.js"></script>
+    <script src="./src/js/reviews.js"></script>
+  </body>
+</html>
