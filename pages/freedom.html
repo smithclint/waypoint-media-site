@@ -322,6 +322,77 @@
             >
           </div>
         </div>
+        <!-- The Plan Card -->
+        <div class="card">
+          <h2>The Freedom Plan</h2>
+          <h3 style="margin-top: 0.5em">🏡 Freedom Plan Outline</h3>
+
+          <h4>Section 1 – The Goal</h4>
+          <p>
+            Live completely debt-free, own our home outright, and create monthly margin of $4–5K to
+            build wealth, give, and live freely.
+          </p>
+
+          <h4>Section 2 – The 4-Step Plan</h4>
+          <ol style="margin-left: 1.2em">
+            <li>
+              <b>Sell Current House:</b> Est. sale price $740K–$750K. After mortgage & costs, net ≈
+              $340K–$375K.
+            </li>
+            <li>
+              <b>Pay Off All Debt:</b> Credit cards $14K, Truck $44K, RV $68K, Emergency fund $15K →
+              ≈ $141K total. Cash left ≈ $200K–$230K.
+            </li>
+            <li>
+              <b>Rent 6–12 Months:</b> Est. rent $2,000/month → $12K–$24K total. Full flexibility,
+              zero interest.
+            </li>
+            <li>
+              <b>Buy Modest Home with Cash:</b> $250K–$300K. No mortgage. Monthly margin $4K–$5K →
+              saving $50K–$60K/yr.
+            </li>
+          </ol>
+
+          <h4>Section 3 – The Life After</h4>
+          <ul>
+            <li>Freedom from debt and job pressure</li>
+            <li>$15K emergency fund for security</li>
+            <li>$4K–$5K/month saved or invested</li>
+            <li>Ability to travel, give, or build the future homestead</li>
+            <li>No banks, no stress, no “what ifs”</li>
+          </ul>
+        </div>
+
+        <!-- FAQ Dropdown Card -->
+        <div class="card">
+          <h2>💬 Q&A – Common Questions</h2>
+          <p class="muted">
+            Select a question to see our reasoning and how it fits into the bigger picture.
+          </p>
+
+          <select
+            id="faqSelect"
+            style="
+              width: 100%;
+              padding: 10px;
+              border-radius: 8px;
+              border: 1px solid #d1d5db;
+              margin-bottom: 1em;
+            "
+          >
+            <option value="">Select a question...</option>
+            <option value="q1">Isn’t paying rent just wasting money?</option>
+            <option value="q2">What if home prices keep going up and we miss out?</option>
+            <option value="q3">Won’t moving be stressful and disruptive?</option>
+            <option value="q4">How do we know we’ll find something decent to buy?</option>
+            <option value="q5">What if we just waited until my income grows?</option>
+            <option value="q6">Why not keep the house and just pay debts slowly?</option>
+            <option value="q7">How does this affect our family and future goals?</option>
+            <option value="q8">What will our finances look like afterward?</option>
+          </select>
+
+          <div id="faqAnswer" class="muted" style="min-height: 150px; line-height: 1.5"></div>
+        </div>
 
         <div class="card">
           <h2>Now vs. After</h2>
@@ -526,6 +597,54 @@
       document.querySelectorAll('input').forEach(el => el.addEventListener('input', updateScene));
       document.querySelectorAll('.debt').forEach(el => el.addEventListener('change', updateScene));
       updateScene();
+    </script>
+    <script>
+      const faqAnswers = {
+        q1: `It feels that way—until you realize we already “waste” roughly the same amount every year on loan interest.
+            Between the mortgage, truck, RV, and credit cards, about $20,000 per year goes to interest alone.
+            Renting for a year costs about the same, but it buys peace, freedom, and time—not debt.
+            When rent ends, we’ll own our home outright. When interest ends, it’s gone forever.`,
+
+        q2: `That’s possible—but not guaranteed. What is guaranteed is the stress and risk of staying in heavy debt.
+            Freedom now gives us flexibility to buy again on our terms, when we find the right property.
+            Plus, if prices rise, we can still pay cash and avoid paying interest on that higher price.`,
+
+        q3: `Yes—for a few weeks. But the move ends quickly, while the relief lasts for decades.
+            We’re trading short-term chaos for long-term calm.
+            Once we’re settled, the stress of constant bills and job pressure disappears completely.`,
+
+        q4: `We’ll rent near the area we want and shop patiently with cash in hand.
+            A $250K–$300K budget still finds solid homes in neighboring communities.
+            We’ll take our time, inspect carefully, and choose a house we love—not one we’re forced into by a bank’s timeline.`,
+
+        q5: `That could happen—but every month we wait, we keep sending thousands to interest.
+            Freedom multiplies opportunities: once we’re debt-free, you can pursue better work, side income, or new ideas without risk.
+            Growth is easier when we’re not under financial pressure.`,
+
+        q6: `Because we’d still owe six figures and spend years paying off loans with interest.
+            Selling resets everything at once.
+            It’s a bold move, but it gets us to peace in months instead of a decade.`,
+
+        q7: `It gives us room to dream again—no bills weighing us down.
+            Time to travel or build the homestead when the time’s right.
+            Margin to help the kids and fund retirement.
+            It’s not about losing a house—it’s about gaining our life back.`,
+
+        q8: `No debt.
+            Emergency fund: $15K.
+            Home: owned outright.
+            Monthly expenses: ≈ $5,400.
+            Income: ≈ $9,900.
+            Savings margin: ≈ $4,500/month → $50K–$60K per year.
+            That’s real freedom—the ability to live, give, and plan for the future without fear.`,
+      };
+
+      const faqSelect = document.getElementById('faqSelect');
+      const faqAnswer = document.getElementById('faqAnswer');
+      faqSelect.addEventListener('change', () => {
+        const val = faqSelect.value;
+        faqAnswer.innerHTML = val ? `<p>${faqAnswers[val]}</p>` : '';
+      });
     </script>
   </body>
 </html>
