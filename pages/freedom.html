@@ -232,7 +232,7 @@
           <div class="levers">
             <h2>Adjust the Picture</h2>
             <label>Sale Price ($)</label>
-            <input type="number" id="salePrice" value="745000" step="1000" />
+            <input type="number" id="salePrice" value="740000" step="1000" />
             <label>Agent Commission (%)</label>
             <input type="number" id="commissionPct" value="3" step="0.5" />
             <label>Mortgage Payoff ($)</label>
@@ -252,7 +252,9 @@
             <label>Emergency Fund ($)</label>
             <input type="number" id="emFund" value="15000" step="1000" />
             <label>Cash Home Target ($)</label>
-            <input type="number" id="cashHome" value="250000" step="1000" />
+            <input type="number" id="cashHome" value="300000" step="1000" />
+            <label>Monthly Saving Amount ($)</label>
+            <input type="number" id="monthlySaving" value="2500" step="500" />
           </div>
         </div>
 
@@ -517,6 +519,7 @@
         const payoff = +$('mortgagePayoff').value || 0;
         const emFund = +$('emFund').value || 0;
         const cashTarget = +$('cashHome').value || 0;
+        const monthlySaving = +$('monthlySaving').value || 0;
         let totalDebtsAll = 0,
           paidDebts = 0;
         document.querySelectorAll('.debt').forEach(cb => {
@@ -540,6 +543,7 @@
           netAvailable,
           bufferAfterTarget,
           shortfall,
+          monthlySaving,
         };
       }
 
@@ -551,7 +555,7 @@
         $('chipBuffer').textContent = `After Target, Buffer: ${fmt(d.bufferAfterTarget)}`;
 
         // Shortfall + months to reach
-        const monthlyMargin = 4500; // Adjust if you want a different estimate
+        const monthlyMargin = d.monthlySaving; // Adjust if you want a different estimate
         if (d.shortfall > 0) {
           const monthsToReach = Math.ceil(d.shortfall / monthlyMargin);
           $('chipShort').style.display = 'inline-block';
